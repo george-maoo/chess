@@ -5,7 +5,7 @@ class Queen extends Piece {
     return this.color === "black" ? "♛" : "♕";
   }
 
-  moves() {
+  moveDirections() {
     return [
       [1, 1],
       [1, -1],
@@ -16,6 +16,45 @@ class Queen extends Piece {
       [0, 1],
       [0, -1],
     ];
+  }
+
+  // for all pieces that can move multiple tiles:
+  /*
+  for every move in validMoves, check every possible move in that direction
+  until you hit:
+    - another piece
+      - if piece is same color:
+        - dont add the position as a valid move
+      - if piece is a enemy:
+        - add the enemy piece's location as a valid move
+    - move goes out of bounds
+  */
+  validMoves() {
+    const moves = [];
+
+    this.moveDirections().forEach(([rowDir, colDir]) => {
+      const [rowToCheck, colToCheck] = this.location;
+
+      while (true) {
+        rowToCheck += rowDir;
+        colToCheck += colDir;
+        const posToCheck = [rowToCheck, colToCheck];
+
+        if (!this.board.isInBounds()) break;
+
+        if (this.board.board[rowToCheck][colToCheck] === null) {
+          moves.push(posToCheck);
+          continue;
+        }
+
+        if (this.board.board[rowToCheck][colToCheck].color !== this.color) {
+          moves.push(posToCheck);
+          break;
+        }
+      }
+    });
+
+    return moves;
   }
 }
 

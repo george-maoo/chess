@@ -4,7 +4,8 @@
   "description": "A chess game made in javascript",
   "main": "index.js",
   "scripts": {
-    "test": "jest --verbose --run-in-band"
+    "test": "jest --verbose --run-in-band",
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
