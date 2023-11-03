@@ -1,7 +1,16 @@
 // the board to play on
 class Board {
   constructor() {
-    this.board = [...Array(8)].map((e) => Array(8));
+    this.board = [
+      [null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null],
+    ];
   }
 
   // displays the board
@@ -9,7 +18,7 @@ class Board {
     this.board.forEach((row) => {
       console.log("-".repeat(15));
       row.forEach((pos) => {
-        process.stdout.write(`${pos} `);
+        process.stdout.write(`${pos === null ? " " : pos.string_rep()} `);
       });
       console.log();
     });

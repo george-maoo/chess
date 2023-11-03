@@ -1,11 +1,35 @@
-const Board = require("../board.js");
+const Board = require("../board");
+const Pawn = require("../pieces/pawn");
+const Bishop = require("../pieces/bishop");
+const Rook = require("../pieces/rook");
+const Knight = require("../pieces/knight");
+const Queen = require("../pieces/queen");
+const King = require("../pieces/king");
+
+describe("initialization", () => {
+  test("Board is initially empty", () => {
+    const b = new Board();
+
+    expect(b.board).toEqual([
+      [null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null],
+      [null, null, null, null, null, null, null, null],
+    ]);
+  });
+});
 
 describe("placePiece", () => {
   test("Can place items in board", () => {
     const b = new Board();
-    b.placePiece("P", [3, 4]);
+    const p = new Pawn("white", [3, 4]);
+    b.placePiece(p, [3, 4]);
 
-    expect(b.board[3][4]).toBe("P");
+    expect(b.board[3][4]).toBe(p);
   });
 });
 
