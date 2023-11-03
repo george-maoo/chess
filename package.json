@@ -4,7 +4,7 @@
   "description": "A chess game made in javascript",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --verbose --run-in-band"
   },
   "author": "",
   "license": "ISC",
