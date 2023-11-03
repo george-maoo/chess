@@ -33,3 +33,5 @@ for (let i = 0; i < 8; i++) {
 }
 
 b.printBoard();
+b.movePiece([1, 1], [2, 1]);
+b.printBoard();
