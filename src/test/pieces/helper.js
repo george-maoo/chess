@@ -1,4 +1,3 @@
-// validates the list of moves returned by Piece.validMoves
 const printBoard = (board) => {
   let x = "";
   board.forEach((row) => {
@@ -9,6 +8,7 @@ const printBoard = (board) => {
   console.log(x);
 };
 
+// validates the list of moves returned by Piece.validMoves
 const validMoveValidator = (expectedValidMoves, validMoves, debug = false) => {
   const generatedValidMoves = [
     [0, 0, 0, 0, 0, 0, 0, 0],

@@ -1,7 +1,8 @@
 const Piece = require("./piece");
+const moveType = require("./utils/movetype");
 
 class Pawn extends Piece {
-  string_rep() {
+  stringRep() {
     return this.color === "black" ? "♟" : "♙";
   }
 
@@ -18,45 +19,8 @@ class Pawn extends Piece {
     );
   }
 
-  // TODO refactor this
   validMoves() {
-    const { board } = this;
-    const forwardDir = this.forwardDirection();
-    const [currentRow, currentCol] = this.location;
-    const moves = [];
-
-    const oneStep = [currentRow + forwardDir, currentCol];
-    const twoStep = [currentRow + forwardDir * 2, currentCol];
-
-    if (board.isPosEmpty(oneStep)) {
-      moves.push(oneStep);
-    }
-
-    if (
-      board.isPosEmpty(oneStep) &&
-      board.isPosEmpty(twoStep) &&
-      this.isAtStart()
-    ) {
-      moves.push(twoStep);
-    }
-
-    const leftDiag = [currentRow + forwardDir, currentCol - 1];
-    const rightDiag = [currentRow + forwardDir, currentCol + 1];
-    const diagMoves = [leftDiag, rightDiag].filter((move) =>
-      board.isInBounds(move)
-    );
-
-    diagMoves.forEach((diagMove) => {
-      const [rowToCheck, colToCheck] = diagMove;
-      if (
-        board.board[rowToCheck][colToCheck] !== null &&
-        board.board[rowToCheck][colToCheck].color !== this.color
-      ) {
-        moves.push(diagMove);
-      }
-    });
-
-    return moves;
+    return moveType.pawnMove(this);
   }
 }
 

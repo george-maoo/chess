@@ -11,6 +11,7 @@ until you hit:
 */
 
 const multiMove = (piece) => {
+  const { board } = piece;
   const moves = [];
 
   piece.moveDirections().forEach(([rowDir, colDir]) => {
@@ -21,12 +22,12 @@ const multiMove = (piece) => {
       colToCheck += colDir;
       const posToCheck = [rowToCheck, colToCheck];
 
-      if (!piece.board.isInBounds(posToCheck)) break;
+      if (!board.isInBounds(posToCheck)) break;
 
-      if (piece.board.board[rowToCheck][colToCheck] === null) {
+      if (board.atLocation(posToCheck) === null) {
         moves.push(posToCheck);
       } else {
-        if (piece.board.board[rowToCheck][colToCheck].color !== piece.color) {
+        if (board.atLocation(posToCheck).color !== piece.color) {
           moves.push(posToCheck);
         }
         break;
@@ -39,6 +40,7 @@ const multiMove = (piece) => {
 
 // same as the above, but singleMove will only check the move direction once instead of looping
 const singleMove = (piece) => {
+  const { board } = piece;
   const moves = [];
 
   piece.moveDirections().forEach(([rowDir, colDir]) => {
@@ -48,12 +50,12 @@ const singleMove = (piece) => {
     colToCheck += colDir;
     const posToCheck = [rowToCheck, colToCheck];
 
-    if (!piece.board.isInBounds(posToCheck)) return;
+    if (!board.isInBounds(posToCheck)) return;
 
-    if (piece.board.board[rowToCheck][colToCheck] === null) {
+    if (board.atLocation(posToCheck) === null) {
       moves.push(posToCheck);
     } else {
-      if (piece.board.board[rowToCheck][colToCheck].color !== piece.color) {
+      if (board.atLocation(posToCheck).color !== piece.color) {
         moves.push(posToCheck);
       }
     }
@@ -62,7 +64,56 @@ const singleMove = (piece) => {
   return moves;
 };
 
+/*
+for pawn movement:
+allow up to 2 steps forward if at starting position
+allow 1 step if not at starting position
+allow capturing pieces if there is a enemy piece at the forward diagonal directions of pawn
+ */
+const pawnMove = (piece) => {
+  const { board } = piece;
+  const forwardDir = piece.forwardDirection();
+  const [currentRow, currentCol] = piece.location;
+  const moves = [];
+
+  const oneStep = [currentRow + forwardDir, currentCol];
+  const twoStep = [currentRow + forwardDir * 2, currentCol];
+
+  if (board.isPosEmpty(oneStep)) {
+    moves.push(oneStep);
+  }
+
+  if (
+    board.isPosEmpty(oneStep) &&
+    board.isPosEmpty(twoStep) &&
+    piece.isAtStart()
+  ) {
+    moves.push(twoStep);
+  }
+
+  const leftDiag = [currentRow + forwardDir, currentCol - 1];
+  if (
+    board.isInBounds(leftDiag) &&
+    board.atLocation(leftDiag) !== null &&
+    board.atLocation(leftDiag).color !== piece.color
+  ) {
+    moves.push(leftDiag);
+  }
+
+  const rightDiag = [currentRow + forwardDir, currentCol + 1];
+  if (
+    board.isInBounds(rightDiag) &&
+    board.atLocation(rightDiag) !== null &&
+    board.atLocation(rightDiag).color !== piece.color
+  ) {
+    moves.push(rightDiag);
+  }
+
+  return moves;
+};
+
 module.exports = {
   multiMove,
   singleMove,
+  pawnMove,
 };

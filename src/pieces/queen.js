@@ -2,7 +2,7 @@ const Piece = require("./piece");
 const moveType = require("./utils/movetype");
 
 class Queen extends Piece {
-  string_rep() {
+  stringRep() {
     return this.color === "black" ? "♛" : "♕";
   }
 

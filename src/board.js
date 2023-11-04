@@ -48,15 +48,22 @@ class Board {
     }
   }
 
+  atLocation([row, col]) {
+    return this.board[row][col];
+  }
+
   // displays the board on the terminal, will be removed when I set up a actual UI
   printBoard() {
+    let board = "";
     this.board.forEach((row) => {
-      console.log("-".repeat(15));
+      board += "-".repeat(15) + "\n";
+
       row.forEach((pos) => {
-        process.stdout.write(`${pos === null ? " " : pos.string_rep()} `);
+        board += `${pos === null ? " " : pos.stringRep()} `;
       });
-      console.log();
+      board += "\n";
     });
+    console.log(board);
   }
 
   // piece = Piece class, location = 2 element array, 1st element row, 2nd element column
