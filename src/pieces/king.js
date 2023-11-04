@@ -1,11 +1,12 @@
 const Piece = require("./piece");
+const moveType = require("./utils/movetype");
 
 class King extends Piece {
   string_rep() {
     return this.color === "black" ? "♚" : "♔";
   }
 
-  moves() {
+  moveDirections() {
     return [
       [1, 1],
       [1, -1],
@@ -16,6 +17,10 @@ class King extends Piece {
       [0, 1],
       [0, -1],
     ];
+  }
+
+  validMoves() {
+    return moveType.singleMove(this);
   }
 }
 

@@ -37,6 +37,7 @@ const multiMove = (piece) => {
   return moves;
 };
 
+// same as the above, but singleMove will only check the move direction once instead of looping
 const singleMove = (piece) => {
   const moves = [];
 
