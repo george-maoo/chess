@@ -1,4 +1,3 @@
-// TODO refactor this
 // validates the list of moves returned by Piece.validMoves
 const printBoard = (board) => {
   let x = "";

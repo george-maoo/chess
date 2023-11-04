@@ -7,43 +7,56 @@ class Pawn extends Piece {
 
   // assume black always starts at top of board
   forwardDirection() {
-    return this.color === "black" ? -1 : 1;
+    return this.color === "black" ? 1 : -1;
   }
 
   isAtStart() {
-    const col = this.location[1];
+    const row = this.location[0];
     return (
-      (this.color === "white" && col === 6) ||
-      (this.color === "black" && col === 1)
+      (this.color === "white" && row === 6) ||
+      (this.color === "black" && row === 1)
     );
   }
 
+  // TODO refactor this
   validMoves() {
+    const { board } = this;
+    const forwardDir = this.forwardDirection();
     const [currentRow, currentCol] = this.location;
     const moves = [];
-    let rowToCheck;
-    let colToCheck;
 
-    const oneStep = [currentRow + this.forwardDirection(), currentCol];
-    const twoStep = [currentRow + this.forwardDirection() * 2, currentCol];
-    const leftDiag = [currentRow + this.forwardDirection(), currentCol - 1];
-    const rightDiag = [currentRow + this.forwardDirection(), currentCol + 1];
+    const oneStep = [currentRow + forwardDir, currentCol];
+    const twoStep = [currentRow + forwardDir * 2, currentCol];
 
-    [rowToCheck, colToCheck] = oneStep;
-    if (
-      this.board.isInBounds(oneStep) &&
-      this.board.board[rowToCheck][colToCheck] === null
-    ) {
+    if (board.isPosEmpty(oneStep)) {
       moves.push(oneStep);
     }
 
-    [rowToCheck, colToCheck] = twoStep;
     if (
-      this.board.isInBounds(twoStep) &&
-      this.board.board[rowToCheck][colToCheck] === null
+      board.isPosEmpty(oneStep) &&
+      board.isPosEmpty(twoStep) &&
+      this.isAtStart()
     ) {
       moves.push(twoStep);
     }
+
+    const leftDiag = [currentRow + forwardDir, currentCol - 1];
+    const rightDiag = [currentRow + forwardDir, currentCol + 1];
+    const diagMoves = [leftDiag, rightDiag].filter((move) =>
+      board.isInBounds(move)
+    );
+
+    diagMoves.forEach((diagMove) => {
+      const [rowToCheck, colToCheck] = diagMove;
+      if (
+        board.board[rowToCheck][colToCheck] !== null &&
+        board.board[rowToCheck][colToCheck].color !== this.color
+      ) {
+        moves.push(diagMove);
+      }
+    });
+
+    return moves;
   }
 }
 

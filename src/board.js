@@ -82,6 +82,10 @@ class Board {
       col < this.board[0].length
     );
   }
+
+  isPosEmpty([row, col]) {
+    return this.isInBounds([row, col]) && this.board[row][col] === null;
+  }
 }
 
 module.exports = Board;

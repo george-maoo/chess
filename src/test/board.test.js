@@ -48,4 +48,24 @@ describe("Board", () => {
       expect(board.isInBounds([5, 5])).toBe(true);
     });
   });
+
+  describe("isPosEmpty", () => {
+    const board = new Board();
+
+    test("Returns false when location given is out of bounds", () => {
+      expect(board.isPosEmpty([8, 8])).toBe(false);
+      expect(board.isPosEmpty([100, 100])).toBe(false);
+    });
+
+    test("Returns true when position is empty", () => {
+      expect(board.isPosEmpty([6, 6])).toBe(true);
+      expect(board.isPosEmpty([4, 3])).toBe(true);
+      expect(board.isPosEmpty([2, 7])).toBe(true);
+    });
+
+    test("Returns false when position is not empty", () => {
+      board.placePiece(new Pawn("white", [6, 6], board), [6, 6]);
+      expect(board.isPosEmpty([6, 6])).toBe(false);
+    });
+  });
 });
