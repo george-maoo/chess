@@ -37,6 +37,31 @@ const multiMove = (piece) => {
   return moves;
 };
 
+const singleMove = (piece) => {
+  const moves = [];
+
+  piece.moveDirections().forEach(([rowDir, colDir]) => {
+    let [rowToCheck, colToCheck] = piece.location;
+
+    rowToCheck += rowDir;
+    colToCheck += colDir;
+    const posToCheck = [rowToCheck, colToCheck];
+
+    if (!piece.board.isInBounds(posToCheck)) return;
+
+    if (piece.board.board[rowToCheck][colToCheck] === null) {
+      moves.push(posToCheck);
+    } else {
+      if (piece.board.board[rowToCheck][colToCheck].color !== piece.color) {
+        moves.push(posToCheck);
+      }
+    }
+  });
+
+  return moves;
+};
+
 module.exports = {
   multiMove,
+  singleMove,
 };
