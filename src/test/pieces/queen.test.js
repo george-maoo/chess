@@ -3,10 +3,10 @@ const Pawn = require("../../pieces/pawn");
 const Board = require("../../board");
 const helper = require("./helper");
 
-// in expectedValidMoves, a 1 represents a valid move, a 0 represents invalid move
 describe("Queen", () => {
+  // in expectedValidMoves, a 1 represents a valid move, a 0 represents invalid move
   describe("Queen movement", () => {
-    test("Can move up, down, and diagonally when placed in middle of empty board", () => {
+    test("Can move horizontally, vertically, and diagonally when placed in middle of empty board", () => {
       const board = new Board();
       board.placePiece(new Queen("white", [4, 4], board), [4, 4]);
 
