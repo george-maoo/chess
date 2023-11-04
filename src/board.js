@@ -72,6 +72,16 @@ class Board {
     this.board[row][col] = piece;
   }
 
+  // gets all pieces of a specified color, or all pieces if no color is specified
+  getPieces(color = "all") {
+    const pieces = this.board.flat(1);
+    if (color === "all") {
+      return pieces.filter((piece) => piece !== null);
+    } else {
+      return pieces.filter((piece) => piece !== null && piece.color === color);
+    }
+  }
+
   // moves the piece from the start pos to end pos
   // returns true if piece is moved, returns false if end position is invalid
   movePiece(startPos, endPos) {

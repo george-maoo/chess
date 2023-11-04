@@ -105,4 +105,47 @@ describe("Board", () => {
       expect(board.atLocation([6, 1])).toBe(null);
     });
   });
+
+  describe("getPieces", () => {
+    describe("When board is empty", () => {
+      const board = new Board();
+
+      test("Returns a empty array when board is empty", () => {
+        expect(board.getPieces()).toEqual([]);
+      });
+    });
+
+    describe("When board is not empty", () => {
+      const board = new Board();
+      board.placePiece(new Pawn("white", [5, 4], board), [5, 4]);
+      board.placePiece(new Pawn("white", [4, 4], board), [4, 4]);
+      board.placePiece(new Pawn("white", [3, 4], board), [3, 4]);
+      board.placePiece(new Pawn("black", [2, 4], board), [2, 4]);
+      board.placePiece(new Pawn("black", [1, 4], board), [1, 4]);
+
+      test("Returns an array with length of 5 when there are 5 pieces on the board", () => {
+        expect(board.getPieces().length).toBe(5);
+      });
+
+      test("Returns an array with 3 white pieces when white is passed in as a argument and 3 white pieces are on board", () => {
+        const getPiecesReturnValue = board.getPieces("white");
+
+        expect(getPiecesReturnValue.length).toBe(3);
+
+        getPiecesReturnValue.forEach((piece) => {
+          expect(piece instanceof Pawn).toBe(true);
+        });
+      });
+
+      test("Returns an array with 2 black pieces when there are 2 black pieces and black is passed in as a argument", () => {
+        const getPiecesReturnValue = board.getPieces("black");
+
+        expect(getPiecesReturnValue.length).toBe(2);
+
+        getPiecesReturnValue.forEach((piece) => {
+          expect(piece instanceof Pawn).toBe(true);
+        });
+      });
+    });
+  });
 });
