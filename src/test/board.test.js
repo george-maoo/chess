@@ -24,6 +24,13 @@ describe("Board", () => {
     });
   });
 
+  describe("atLocation", () => {
+    test("Returns whatever is at the position given", () => {
+      const board = new Board();
+      expect(board.atLocation([3, 4])).toBe(null);
+    });
+  });
+
   describe("placePiece", () => {
     test("Can place items in board", () => {
       const board = new Board();
@@ -66,6 +73,36 @@ describe("Board", () => {
     test("Returns false when position is not empty", () => {
       board.placePiece(new Pawn("white", [6, 6], board), [6, 6]);
       expect(board.isPosEmpty([6, 6])).toBe(false);
+    });
+  });
+
+  describe("movePiece", () => {
+    const board = new Board();
+    board.placePiece(new Queen("white", [6, 1], board), [6, 1]);
+
+    test("Returns false if start position is out of bounds", () => {
+      expect(board.movePiece([100, 100], [3, 3])).toBe(false);
+    });
+
+    test("returns false if there is no piece at start position", () => {
+      expect(board.movePiece([1, 1], [3, 3])).toBe(false);
+    });
+
+    test("returns false and doesnt move piece if end position is not included in the piece's valid moves", () => {
+      expect(board.movePiece([6, 1], [5, 5])).toBe(false);
+      expect(board.atLocation([5, 5])).toBe(null);
+      expect(board.atLocation([6, 1])).not.toBe(null);
+    });
+
+    test("returns false and doesnt move piece if end position is out of bounds", () => {
+      expect(board.movePiece([6, 1], [100, 1])).toBe(false);
+      expect(board.atLocation([6, 1])).not.toBe(null);
+    });
+
+    test("returns true and moves piece if end position is included in the piece's valid moves", () => {
+      expect(board.movePiece([6, 1], [4, 1])).toBe(true);
+      expect(board.atLocation([4, 1])).not.toBe(null);
+      expect(board.atLocation([6, 1])).toBe(null);
     });
   });
 });

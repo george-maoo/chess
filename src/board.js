@@ -21,37 +21,6 @@ class Board {
     ];
   }
 
-  // initialize board
-  initializeBoard() {
-    this.placePiece(new Rook("black", [0, 0]), [0, 0], this);
-    this.placePiece(new Knight("black", [0, 1]), [0, 1], this);
-    this.placePiece(new Bishop("black", [0, 2]), [0, 2], this);
-    this.placePiece(new Queen("black", [0, 3]), [0, 3], this);
-    this.placePiece(new King("black", [0, 4]), [0, 4], this);
-    this.placePiece(new Bishop("black", [0, 5]), [0, 5], this);
-    this.placePiece(new Knight("black", [0, 6]), [0, 6], this);
-    this.placePiece(new Rook("black", [0, 7]), [0, 7], this);
-    for (let i = 0; i < 8; i++) {
-      this.placePiece(new Pawn("black", [1, i]), [1, i], this);
-    }
-
-    this.placePiece(new Rook("white", [7, 0]), [7, 0], this);
-    this.placePiece(new Knight("white", [7, 1]), [7, 1], this);
-    this.placePiece(new Bishop("white", [7, 2]), [7, 2], this);
-    this.placePiece(new Queen("white", [7, 3]), [7, 3], this);
-    this.placePiece(new King("white", [7, 4]), [7, 4], this);
-    this.placePiece(new Bishop("white", [7, 5]), [7, 5], this);
-    this.placePiece(new Knight("white", [7, 6]), [7, 6], this);
-    this.placePiece(new Rook("white", [7, 7]), [7, 7], this);
-    for (let i = 0; i < 8; i++) {
-      this.placePiece(new Pawn("white", [6, i]), [6, i], this);
-    }
-  }
-
-  atLocation([row, col]) {
-    return this.board[row][col];
-  }
-
   // displays the board on the terminal, will be removed when I set up a actual UI
   printBoard() {
     let board = "";
@@ -66,18 +35,68 @@ class Board {
     console.log(board);
   }
 
-  // piece = Piece class, location = 2 element array, 1st element row, 2nd element column
+  // initialize board
+  initializeBoard() {
+    this.placePiece(new Rook("black", [0, 0], this), [0, 0]);
+    this.placePiece(new Knight("black", [0, 1], this), [0, 1]);
+    this.placePiece(new Bishop("black", [0, 2], this), [0, 2]);
+    this.placePiece(new Queen("black", [0, 3], this), [0, 3]);
+    this.placePiece(new King("black", [0, 4], this), [0, 4]);
+    this.placePiece(new Bishop("black", [0, 5], this), [0, 5]);
+    this.placePiece(new Knight("black", [0, 6], this), [0, 6]);
+    this.placePiece(new Rook("black", [0, 7], this), [0, 7]);
+    for (let i = 0; i < 8; i++) {
+      this.placePiece(new Pawn("black", [1, i], this), [1, i]);
+    }
+
+    this.placePiece(new Rook("white", [7, 0], this), [7, 0]);
+    this.placePiece(new Knight("white", [7, 1], this), [7, 1]);
+    this.placePiece(new Bishop("white", [7, 2], this), [7, 2]);
+    this.placePiece(new Queen("white", [7, 3], this), [7, 3]);
+    this.placePiece(new King("white", [7, 4], this), [7, 4]);
+    this.placePiece(new Bishop("white", [7, 5], this), [7, 5]);
+    this.placePiece(new Knight("white", [7, 6], this), [7, 6]);
+    this.placePiece(new Rook("white", [7, 7], this), [7, 7]);
+    for (let i = 0; i < 8; i++) {
+      this.placePiece(new Pawn("white", [6, i], this), [6, i]);
+    }
+  }
+
+  // getter
+  atLocation([row, col]) {
+    return this.board[row][col];
+  }
+
+  // setter
   placePiece(piece, [row, col]) {
     this.board[row][col] = piece;
   }
 
   // moves the piece from the start pos to end pos
-  // TODO check if the specific piece type is allowed to move to end pos
-  movePiece([initRow, initCol], [endRow, endCol]) {
-    this.board[endRow][endCol] = this.board[initRow][initCol];
-    this.board[initRow][initCol] = null;
+  // returns true if piece is moved, returns false if end position is invalid
+  movePiece(startPos, endPos) {
+    // check if given start pos is in bounds before doing anything
+    if (!this.isInBounds(startPos)) return false;
 
-    this.board[endRow][endCol].location = [endRow, endCol];
+    const piece = this.atLocation(startPos);
+
+    // check if piece exists
+    if (!piece) return false;
+
+    // check if end position is included in the valid moves of the piece
+    if (
+      !piece
+        .validMoves()
+        .some((move) => move[0] === endPos[0] && move[1] === endPos[1])
+    ) {
+      return false;
+    }
+
+    this.placePiece(this.atLocation(startPos), endPos);
+    this.placePiece(null, startPos);
+
+    this.atLocation(endPos).location = endPos;
+    return true;
   }
 
   // checks if piece is in bounds
@@ -90,8 +109,8 @@ class Board {
     );
   }
 
-  isPosEmpty([row, col]) {
-    return this.isInBounds([row, col]) && this.board[row][col] === null;
+  isPosEmpty(posToCheck) {
+    return this.isInBounds(posToCheck) && this.atLocation(posToCheck) === null;
   }
 }
 
