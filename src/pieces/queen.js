@@ -33,22 +33,21 @@ class Queen extends Piece {
     const moves = [];
 
     this.moveDirections().forEach(([rowDir, colDir]) => {
-      const [rowToCheck, colToCheck] = this.location;
+      let [rowToCheck, colToCheck] = this.location;
 
       while (true) {
         rowToCheck += rowDir;
         colToCheck += colDir;
         const posToCheck = [rowToCheck, colToCheck];
 
-        if (!this.board.isInBounds()) break;
+        if (!this.board.isInBounds(posToCheck)) break;
 
         if (this.board.board[rowToCheck][colToCheck] === null) {
           moves.push(posToCheck);
-          continue;
-        }
-
-        if (this.board.board[rowToCheck][colToCheck].color !== this.color) {
-          moves.push(posToCheck);
+        } else {
+          if (this.board.board[rowToCheck][colToCheck].color !== this.color) {
+            moves.push(posToCheck);
+          }
           break;
         }
       }
