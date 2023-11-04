@@ -4,6 +4,7 @@ const Board = require("../../board");
 const helper = require("./helper");
 
 describe("Rook", () => {
+  // in expectedValidMoves, a 1 represents a valid move, a 0 represents invalid move
   describe("Rook movement", () => {
     test("Can move horizontally and vertically when placed in middle of empty board", () => {
       const board = new Board();
