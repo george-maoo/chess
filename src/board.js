@@ -82,23 +82,24 @@ class Board {
     }
   }
 
+  // checks if move is included in listOfMoves, returns true if included, false if not
+  includesMove(listOfMoves, endPos) {
+    return listOfMoves.some(
+      (move) => move[0] === endPos[0] && move[1] === endPos[1]
+    );
+  }
+
   // moves the piece from the start pos to end pos
   // returns true if piece is moved, returns false if end position is invalid
   movePiece(startPos, endPos) {
     // check if given start pos is in bounds before doing anything
     if (!this.isInBounds(startPos)) return false;
 
+    // check if piece exists
+    // check if end position is included in the valid moves of the piece
     const piece = this.atLocation(startPos);
 
-    // check if piece exists
-    if (!piece) return false;
-
-    // check if end position is included in the valid moves of the piece
-    if (
-      !piece
-        .validMoves()
-        .some((move) => move[0] === endPos[0] && move[1] === endPos[1])
-    ) {
+    if (!piece || !this.includesMove(endPos, piece.validMoves())) {
       return false;
     }
 
@@ -121,6 +122,22 @@ class Board {
 
   isPosEmpty(posToCheck) {
     return this.isInBounds(posToCheck) && this.atLocation(posToCheck) === null;
+  }
+
+  // find the king with the color passed in - DONE
+  // check all enemy moves to see if the king gets hit by any of them - DONE
+  // return true if in check, false if not
+  isInCheck(color) {
+    const king = this.getPieces(color).find((piece) => piece instanceof King);
+    const enemyColor = color === "black" ? "white" : "black";
+
+    for (const enemyPiece of this.getPieces(enemyColor)) {
+      if (this.includesMove(enemyPiece.validMoves(), king.location)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }
 
