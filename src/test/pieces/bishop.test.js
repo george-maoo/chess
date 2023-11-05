@@ -8,7 +8,7 @@ describe("Bishop", () => {
   describe("Bishop movement", () => {
     test("Can move diagonally when placed in middle of empty board", () => {
       const board = new Board();
-      board.placePiece(new Bishop("white", [4, 4], board), [4, 4]);
+      board.setLocation(new Bishop("white", [4, 4], board), [4, 4]);
 
       const validMoves = board.board[4][4].validMoves();
       const expectedValidMoves = [
@@ -29,7 +29,7 @@ describe("Bishop", () => {
 
     test("Can only move diagonally towards bottom left when placed in row 0, column 7", () => {
       const board = new Board();
-      board.placePiece(new Bishop("white", [0, 7], board), [0, 7]);
+      board.setLocation(new Bishop("white", [0, 7], board), [0, 7]);
 
       const validMoves = board.board[0][7].validMoves();
       const expectedValidMoves = [
@@ -50,11 +50,11 @@ describe("Bishop", () => {
 
     test("Cant move over/move on piece of same color", () => {
       const board = new Board();
-      board.placePiece(new Bishop("white", [4, 4], board), [4, 4]);
+      board.setLocation(new Bishop("white", [4, 4], board), [4, 4]);
 
-      board.placePiece(new Pawn("white", [2, 2], board), [2, 2]);
-      board.placePiece(new Pawn("white", [6, 2], board), [6, 2]);
-      board.placePiece(new Pawn("white", [7, 7], board), [7, 7]);
+      board.setLocation(new Pawn("white", [2, 2], board), [2, 2]);
+      board.setLocation(new Pawn("white", [6, 2], board), [6, 2]);
+      board.setLocation(new Pawn("white", [7, 7], board), [7, 7]);
 
       const validMoves = board.board[4][4].validMoves();
       const expectedValidMoves = [
@@ -75,11 +75,11 @@ describe("Bishop", () => {
 
     test("Can move on enemy piece but not over them", () => {
       const board = new Board();
-      board.placePiece(new Bishop("white", [4, 4], board), [4, 4]);
+      board.setLocation(new Bishop("white", [4, 4], board), [4, 4]);
 
-      board.placePiece(new Pawn("black", [2, 2], board), [2, 2]);
-      board.placePiece(new Pawn("black", [6, 2], board), [6, 2]);
-      board.placePiece(new Pawn("black", [7, 7], board), [7, 7]);
+      board.setLocation(new Pawn("black", [2, 2], board), [2, 2]);
+      board.setLocation(new Pawn("black", [6, 2], board), [6, 2]);
+      board.setLocation(new Pawn("black", [7, 7], board), [7, 7]);
 
       const validMoves = board.board[4][4].validMoves();
       const expectedValidMoves = [

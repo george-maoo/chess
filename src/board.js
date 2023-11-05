@@ -38,28 +38,28 @@ class Board {
 
   // initialize board
   initializeBoard() {
-    this.placePiece(new Rook("black", [0, 0], this), [0, 0]);
-    this.placePiece(new Knight("black", [0, 1], this), [0, 1]);
-    this.placePiece(new Bishop("black", [0, 2], this), [0, 2]);
-    this.placePiece(new Queen("black", [0, 3], this), [0, 3]);
-    this.placePiece(new King("black", [0, 4], this), [0, 4]);
-    this.placePiece(new Bishop("black", [0, 5], this), [0, 5]);
-    this.placePiece(new Knight("black", [0, 6], this), [0, 6]);
-    this.placePiece(new Rook("black", [0, 7], this), [0, 7]);
+    this.setLocation(new Rook("black", [0, 0], this), [0, 0]);
+    this.setLocation(new Knight("black", [0, 1], this), [0, 1]);
+    this.setLocation(new Bishop("black", [0, 2], this), [0, 2]);
+    this.setLocation(new Queen("black", [0, 3], this), [0, 3]);
+    this.setLocation(new King("black", [0, 4], this), [0, 4]);
+    this.setLocation(new Bishop("black", [0, 5], this), [0, 5]);
+    this.setLocation(new Knight("black", [0, 6], this), [0, 6]);
+    this.setLocation(new Rook("black", [0, 7], this), [0, 7]);
     for (let i = 0; i < 8; i++) {
-      this.placePiece(new Pawn("black", [1, i], this), [1, i]);
+      this.setLocation(new Pawn("black", [1, i], this), [1, i]);
     }
 
-    this.placePiece(new Rook("white", [7, 0], this), [7, 0]);
-    this.placePiece(new Knight("white", [7, 1], this), [7, 1]);
-    this.placePiece(new Bishop("white", [7, 2], this), [7, 2]);
-    this.placePiece(new Queen("white", [7, 3], this), [7, 3]);
-    this.placePiece(new King("white", [7, 4], this), [7, 4]);
-    this.placePiece(new Bishop("white", [7, 5], this), [7, 5]);
-    this.placePiece(new Knight("white", [7, 6], this), [7, 6]);
-    this.placePiece(new Rook("white", [7, 7], this), [7, 7]);
+    this.setLocation(new Rook("white", [7, 0], this), [7, 0]);
+    this.setLocation(new Knight("white", [7, 1], this), [7, 1]);
+    this.setLocation(new Bishop("white", [7, 2], this), [7, 2]);
+    this.setLocation(new Queen("white", [7, 3], this), [7, 3]);
+    this.setLocation(new King("white", [7, 4], this), [7, 4]);
+    this.setLocation(new Bishop("white", [7, 5], this), [7, 5]);
+    this.setLocation(new Knight("white", [7, 6], this), [7, 6]);
+    this.setLocation(new Rook("white", [7, 7], this), [7, 7]);
     for (let i = 0; i < 8; i++) {
-      this.placePiece(new Pawn("white", [6, i], this), [6, i]);
+      this.setLocation(new Pawn("white", [6, i], this), [6, i]);
     }
   }
 
@@ -69,7 +69,7 @@ class Board {
   }
 
   // setter
-  placePiece(piece, [row, col]) {
+  setLocation(piece, [row, col]) {
     this.board[row][col] = piece;
   }
 
@@ -111,8 +111,8 @@ class Board {
       atNewPos: this.atLocation(endPos),
     });
 
-    this.placePiece(this.atLocation(startPos), endPos);
-    this.placePiece(null, startPos);
+    this.setLocation(this.atLocation(startPos), endPos);
+    this.setLocation(null, startPos);
 
     this.atLocation(endPos).location = endPos;
     return true;
@@ -120,13 +120,13 @@ class Board {
 
   undoLastMove() {
     const lastMove = this.undoStack.pop();
-    this.placePiece(lastMove.atOldPos, lastMove.oldPos);
+    this.setLocation(lastMove.atOldPos, lastMove.oldPos);
     lastMove.atOldPos.location = lastMove.oldPos;
 
     if (lastMove.atNewPos === null) {
-      this.placePiece(null, lastMove.newPos);
+      this.setLocation(null, lastMove.newPos);
     } else {
-      this.placePiece(lastMove.atNewPos, lastMove.newPos);
+      this.setLocation(lastMove.atNewPos, lastMove.newPos);
       lastMove.atNewPos.location = lastMove.newPos;
     }
   }

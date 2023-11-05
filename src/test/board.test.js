@@ -31,11 +31,11 @@ describe("Board", () => {
     });
   });
 
-  describe("placePiece", () => {
+  describe("setLocation", () => {
     test("Can place items in board", () => {
       const board = new Board();
       const p = new Pawn("white", [3, 4]);
-      board.placePiece(p, [3, 4]);
+      board.setLocation(p, [3, 4]);
 
       expect(board.board[3][4]).toBe(p);
     });
@@ -71,14 +71,14 @@ describe("Board", () => {
     });
 
     test("Returns false when position is not empty", () => {
-      board.placePiece(new Pawn("white", [6, 6], board), [6, 6]);
+      board.setLocation(new Pawn("white", [6, 6], board), [6, 6]);
       expect(board.isPosEmpty([6, 6])).toBe(false);
     });
   });
 
   describe("movePiece", () => {
     const board = new Board();
-    board.placePiece(new Queen("white", [6, 1], board), [6, 1]);
+    board.setLocation(new Queen("white", [6, 1], board), [6, 1]);
 
     test("Returns false if start position is out of bounds", () => {
       expect(board.movePiece([100, 100], [3, 3])).toBe(false);
@@ -117,11 +117,11 @@ describe("Board", () => {
 
     describe("When board is not empty", () => {
       const board = new Board();
-      board.placePiece(new Pawn("white", [5, 4], board), [5, 4]);
-      board.placePiece(new Pawn("white", [4, 4], board), [4, 4]);
-      board.placePiece(new Pawn("white", [3, 4], board), [3, 4]);
-      board.placePiece(new Pawn("black", [2, 4], board), [2, 4]);
-      board.placePiece(new Pawn("black", [1, 4], board), [1, 4]);
+      board.setLocation(new Pawn("white", [5, 4], board), [5, 4]);
+      board.setLocation(new Pawn("white", [4, 4], board), [4, 4]);
+      board.setLocation(new Pawn("white", [3, 4], board), [3, 4]);
+      board.setLocation(new Pawn("black", [2, 4], board), [2, 4]);
+      board.setLocation(new Pawn("black", [1, 4], board), [1, 4]);
 
       test("Returns an array with length of 5 when there are 5 pieces on the board", () => {
         expect(board.getPieces().length).toBe(5);
@@ -152,7 +152,7 @@ describe("Board", () => {
   describe("undoLastMove", () => {
     test("undoes a move to empty space", () => {
       const board = new Board();
-      board.placePiece(new Queen("white", [1, 4], board), [1, 4]);
+      board.setLocation(new Queen("white", [1, 4], board), [1, 4]);
 
       board.movePiece([1, 4], [3, 4]);
       board.undoLastMove();
@@ -163,8 +163,8 @@ describe("Board", () => {
 
     test("Correctly undoes a piece capture move", () => {
       const board = new Board();
-      board.placePiece(new Queen("white", [1, 4], board), [1, 4]);
-      board.placePiece(new Knight("black", [3, 4], board), [3, 4]);
+      board.setLocation(new Queen("white", [1, 4], board), [1, 4]);
+      board.setLocation(new Knight("black", [3, 4], board), [3, 4]);
 
       board.movePiece([1, 4], [3, 4]);
       board.undoLastMove();
@@ -178,8 +178,8 @@ describe("Board", () => {
 
     test("Correctly undoes multiple moves", () => {
       const board = new Board();
-      board.placePiece(new Queen("white", [1, 4], board), [1, 4]);
-      board.placePiece(new Knight("black", [3, 4], board), [3, 4]);
+      board.setLocation(new Queen("white", [1, 4], board), [1, 4]);
+      board.setLocation(new Knight("black", [3, 4], board), [3, 4]);
 
       board.movePiece([1, 4], [3, 4]);
       board.movePiece([3, 4], [7, 4]);
