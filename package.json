@@ -5,11 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --verbose --run-in-band",
-    "start": "node index.js"
+    "start": "node index.js",
+    "build": "browserify index.js -o bundle.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "jest": "^29.7.0"
+  },
+  "dependencies": {
+    "browserify": "^17.0.0"
   }
 }
