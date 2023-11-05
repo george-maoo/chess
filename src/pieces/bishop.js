@@ -6,6 +6,10 @@ class Bishop extends Piece {
     return this.color === "black" ? "♝" : "♗";
   }
 
+  imgRep() {
+    return this.color === "black" ? "img/pieces/bb" : "img/pieces/wb";
+  }
+
   moveDirections() {
     return [
       [1, 1],

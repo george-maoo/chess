@@ -6,6 +6,10 @@ class Rook extends Piece {
     return this.color === "black" ? "♜" : "♖";
   }
 
+  imgRep() {
+    return this.color === "black" ? "img/pieces/br" : "img/pieces/wr";
+  }
+
   moveDirections() {
     return [
       [1, 0],

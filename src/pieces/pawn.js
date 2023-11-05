@@ -6,6 +6,10 @@ class Pawn extends Piece {
     return this.color === "black" ? "♟" : "♙";
   }
 
+  imgRep() {
+    return this.color === "black" ? "img/pieces/bp" : "img/pieces/wp";
+  }
+
   // assume black always starts at top of board
   forwardDirection() {
     return this.color === "black" ? 1 : -1;

@@ -6,6 +6,10 @@ class King extends Piece {
     return this.color === "black" ? "♚" : "♔";
   }
 
+  imgRep() {
+    return this.color === "black" ? "img/pieces/bk" : "img/pieces/wk";
+  }
+
   moveDirections() {
     return [
       [1, 1],

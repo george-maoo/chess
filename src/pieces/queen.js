@@ -6,6 +6,10 @@ class Queen extends Piece {
     return this.color === "black" ? "♛" : "♕";
   }
 
+  imgRep() {
+    return this.color === "black" ? "img/pieces/bq" : "img/pieces/wq";
+  }
+
   moveDirections() {
     return [
       [1, 1],
