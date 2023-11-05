@@ -238,7 +238,8 @@ const Bishop = require("./pieces/bishop");
 
 const board = new Board();
 board.initializeBoard();
-console.log(board);
+
+const game = new Game(board);
 
 const root = document.getElementById("root");
 
@@ -253,41 +254,55 @@ root.appendChild(canvas);
 const boardDisplay = document.createElement("div");
 boardDisplay.setAttribute("id", "chess-board");
 
+let count = 0;
+x = [];
+
+const gamePlayFunc = (loc) => {
+  if (count === 0) {
+    if (board.atLocation(loc) === null) return;
+    count += 1;
+    x.push(loc);
+  } else {
+    const startPos = x.pop();
+    if (board.movePiece(startPos, loc)) {
+      renderBoard();
+    }
+    console.log(board.isInCheckmate("black"));
+    count -= 1;
+  }
+};
+
 for (let i = 0; i < 8; i++) {
   for (let j = 0; j < 8; j++) {
     const button = document.createElement("button");
 
-    const atLoc = board.atLocation([i, j]);
-    if (atLoc instanceof Pawn) {
-      button.textContent = "P";
-    } else if (atLoc instanceof King) {
-      button.textContent = "K";
-    } else if (atLoc instanceof Knight) {
-      button.textContent = "KN";
-    } else if (atLoc instanceof Rook) {
-      button.textContent = "R";
-    } else if (atLoc instanceof Queen) {
-      button.textContent = "Q";
-    } else if (atLoc instanceof Bishop) {
-      button.textContent = "B";
-    } else {
-      button.textContent = "";
-    }
     button.setAttribute("id", "board-tile");
     button.pos = [i, j];
-    button.addEventListener("click", () => {
-      console.log(`${button.pos}`);
-    });
+    button.addEventListener("click", () => gamePlayFunc(button.pos));
     boardDisplay.appendChild(button);
   }
 }
 
-for (let i = 0; i < 8; i++) {
-  for (let j = 0; j < 8; j++) {
-    ctx.fillStyle = (i + j) % 2 === 1 ? "rgb(184,139,74)" : "rgb(227,193,111)";
-    ctx.fillRect(i * 80, j * 81, 80, 81);
+const renderBoard = () => {
+  for (let i = 0; i < 8; i++) {
+    for (let j = 0; j < 8; j++) {
+      ctx.fillStyle =
+        (i + j) % 2 === 1 ? "rgb(184,139,74)" : "rgb(227,193,111)";
+      ctx.fillRect(i * 80, j * 81, 80, 81);
+
+      const loc = board.atLocation([i, j]);
+      if (loc !== null) {
+        const img = new Image();
+        img.onload = () => {
+          ctx.drawImage(img, 80 * j, 81 * i, 80, 81);
+        };
+        img.src = `./../src/${loc.imgRep()}.svg`;
+      }
+    }
   }
-}
+};
+
+renderBoard();
 
 root.appendChild(boardDisplay);
 
@@ -298,6 +313,10 @@ const moveType = require("./utils/movetype");
 class Bishop extends Piece {
   stringRep() {
     return this.color === "black" ? "♝" : "♗";
+  }
+
+  imgRep() {
+    return this.color === "black" ? "img/pieces/bb" : "img/pieces/wb";
   }
 
   moveDirections() {
@@ -323,6 +342,10 @@ const moveType = require("./utils/movetype");
 class King extends Piece {
   stringRep() {
     return this.color === "black" ? "♚" : "♔";
+  }
+
+  imgRep() {
+    return this.color === "black" ? "img/pieces/bk" : "img/pieces/wk";
   }
 
   moveDirections() {
@@ -354,6 +377,10 @@ class Knight extends Piece {
     return this.color === "black" ? "♞" : "♘";
   }
 
+  imgRep() {
+    return this.color === "black" ? "img/pieces/bn" : "img/pieces/wn";
+  }
+
   moveDirections() {
     return [
       [2, 1],
@@ -381,6 +408,10 @@ const moveType = require("./utils/movetype");
 class Pawn extends Piece {
   stringRep() {
     return this.color === "black" ? "♟" : "♙";
+  }
+
+  imgRep() {
+    return this.color === "black" ? "img/pieces/bp" : "img/pieces/wp";
   }
 
   // assume black always starts at top of board
@@ -423,6 +454,10 @@ class Queen extends Piece {
     return this.color === "black" ? "♛" : "♕";
   }
 
+  imgRep() {
+    return this.color === "black" ? "img/pieces/bq" : "img/pieces/wq";
+  }
+
   moveDirections() {
     return [
       [1, 1],
@@ -450,6 +485,10 @@ const moveType = require("./utils/movetype");
 class Rook extends Piece {
   stringRep() {
     return this.color === "black" ? "♜" : "♖";
+  }
+
+  imgRep() {
+    return this.color === "black" ? "img/pieces/br" : "img/pieces/wr";
   }
 
   moveDirections() {
