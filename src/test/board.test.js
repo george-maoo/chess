@@ -148,4 +148,55 @@ describe("Board", () => {
       });
     });
   });
+
+  describe("undoLastMove", () => {
+    test("undoes a move to empty space", () => {
+      const board = new Board();
+      board.placePiece(new Queen("white", [1, 4], board), [1, 4]);
+
+      board.movePiece([1, 4], [3, 4]);
+      board.undoLastMove();
+
+      expect(board.atLocation([1, 4]).color).toBe("white");
+      expect(board.atLocation([1, 4]) instanceof Queen).toBe(true);
+    });
+
+    test("Correctly undoes a piece capture move", () => {
+      const board = new Board();
+      board.placePiece(new Queen("white", [1, 4], board), [1, 4]);
+      board.placePiece(new Knight("black", [3, 4], board), [3, 4]);
+
+      board.movePiece([1, 4], [3, 4]);
+      board.undoLastMove();
+
+      expect(board.atLocation([3, 4]).color).toBe("black");
+      expect(board.atLocation([3, 4]) instanceof Knight).toBe(true);
+
+      expect(board.atLocation([1, 4]).color).toBe("white");
+      expect(board.atLocation([1, 4]) instanceof Queen).toBe(true);
+    });
+
+    test("Correctly undoes multiple moves", () => {
+      const board = new Board();
+      board.placePiece(new Queen("white", [1, 4], board), [1, 4]);
+      board.placePiece(new Knight("black", [3, 4], board), [3, 4]);
+
+      board.movePiece([1, 4], [3, 4]);
+      board.movePiece([3, 4], [7, 4]);
+
+      expect(board.atLocation([7, 4]).color).toBe("white");
+      expect(board.atLocation([7, 4]) instanceof Queen).toBe(true);
+
+      board.undoLastMove();
+      expect(board.atLocation([3, 4]).color).toBe("white");
+      expect(board.atLocation([3, 4]) instanceof Queen).toBe(true);
+
+      board.undoLastMove();
+      expect(board.atLocation([1, 4]).color).toBe("white");
+      expect(board.atLocation([1, 4]) instanceof Queen).toBe(true);
+
+      expect(board.atLocation([3, 4]).color).toBe("black");
+      expect(board.atLocation([3, 4]) instanceof Knight).toBe(true);
+    });
+  });
 });

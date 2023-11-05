@@ -19,6 +19,7 @@ class Board {
       [null, null, null, null, null, null, null, null],
       [null, null, null, null, null, null, null, null],
     ];
+    this.undoStack = [];
   }
 
   // displays the board on the terminal, will be removed when I set up a actual UI
@@ -99,15 +100,35 @@ class Board {
     // check if end position is included in the valid moves of the piece
     const piece = this.atLocation(startPos);
 
-    if (!piece || !this.includesMove(endPos, piece.validMoves())) {
+    if (!piece || !this.includesMove(piece.validMoves(), endPos)) {
       return false;
     }
+
+    this.undoStack.push({
+      oldPos: startPos,
+      newPos: endPos,
+      atOldPos: this.atLocation(startPos),
+      atNewPos: this.atLocation(endPos),
+    });
 
     this.placePiece(this.atLocation(startPos), endPos);
     this.placePiece(null, startPos);
 
     this.atLocation(endPos).location = endPos;
     return true;
+  }
+
+  undoLastMove() {
+    const lastMove = this.undoStack.pop();
+    this.placePiece(lastMove.atOldPos, lastMove.oldPos);
+    lastMove.atOldPos.location = lastMove.oldPos;
+
+    if (lastMove.atNewPos === null) {
+      this.placePiece(null, lastMove.newPos);
+    } else {
+      this.placePiece(lastMove.atNewPos, lastMove.newPos);
+      lastMove.atNewPos.location = lastMove.newPos;
+    }
   }
 
   // checks if piece is in bounds
@@ -140,8 +161,33 @@ class Board {
     return false;
   }
 
-  // how do i do this...
-  isInCheckmate() {}
+  // checks that a move doesnt put king in check
+  moveIsSafe(color, piece, move) {
+    this.movePiece(piece.location, move);
+    const safe = !this.isInCheck(color);
+    this.undoLastMove();
+
+    return safe;
+  }
+
+  /*
+  first check if player is in check
+  check all moves that the player in check can make
+  if none of those moves move them out of checkmate, return true, else return false
+   */
+  isInCheckmate(color) {
+    if (!this.isInCheck(color)) return false;
+
+    for (const piece of this.getPieces(color)) {
+      for (const move of piece.validMoves()) {
+        if (this.moveIsSafe(color, piece, move)) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
 }
 
 module.exports = Board;

@@ -54,32 +54,38 @@ describe("Check and Checkmate", () => {
         board.placePiece(new Rook("black", [7, 0], board), [7, 0]);
         board.placePiece(new Rook("black", [7, 1], board), [7, 1]);
 
+        expect(board.isInCheck("white")).toBe(true);
+
         expect(board.isInCheckmate("white")).toBe(true);
       });
 
       test("Checkmate scenario 2", () => {
         const board = new Board();
-        board.placePiece(new King("white", [0, 6], board), [0, 6]);
-        board.placePiece(new Pawn("white", [1, 5], board), [1, 5]);
-        board.placePiece(new Pawn("white", [1, 6], board), [1, 6]);
-        board.placePiece(new Pawn("white", [1, 7], board), [1, 7]);
+        board.placePiece(new King("white", [7, 6], board), [7, 6]);
+        board.placePiece(new Pawn("white", [6, 5], board), [6, 5]);
+        board.placePiece(new Pawn("white", [6, 6], board), [6, 6]);
+        board.placePiece(new Pawn("white", [6, 7], board), [6, 7]);
 
-        board.placePiece(new Queen("black", [0, 0], board), [0, 0]);
+        board.placePiece(new Queen("black", [7, 0], board), [7, 0]);
+
+        expect(board.isInCheck("white")).toBe(true);
 
         expect(board.isInCheckmate("white")).toBe(true);
       });
 
       test("Checkmate scenario 3", () => {
         const board = new Board();
-        board.placePiece(new King("white", [0, 6], board), [0, 6]);
-        board.placePiece(new Pawn("white", [1, 5], board), [1, 5]);
-        board.placePiece(new Pawn("white", [2, 6], board), [2, 6]);
-        board.placePiece(new Pawn("white", [1, 7], board), [1, 7]);
+        board.placePiece(new King("black", [0, 6], board), [0, 6]);
+        board.placePiece(new Pawn("black", [1, 5], board), [1, 5]);
+        board.placePiece(new Pawn("black", [2, 6], board), [2, 6]);
+        board.placePiece(new Pawn("black", [1, 7], board), [1, 7]);
 
-        board.placePiece(new Queen("black", [1, 6], board), [1, 6]);
-        board.placePiece(new Pawn("black", [2, 5], board), [2, 5]);
+        board.placePiece(new Queen("white", [1, 6], board), [1, 6]);
+        board.placePiece(new Pawn("white", [2, 5], board), [2, 5]);
 
-        expect(board.isInCheckmate("white")).toBe(true);
+        expect(board.isInCheck("black")).toBe(true);
+
+        expect(board.isInCheckmate("black")).toBe(true);
       });
 
       test("Checkmate scenario 4", () => {
@@ -89,13 +95,23 @@ describe("Check and Checkmate", () => {
         board.placePiece(new Knight("white", [1, 3], board), [1, 3]);
 
         board.placePiece(new Bishop("black", [4, 5], board), [4, 5]);
-        board.placePiece(new Bishop("black", [0, 2], board), [0, 2]);
+        board.placePiece(new Bishop("black", [2, 0], board), [2, 0]);
+
+        expect(board.isInCheck("white")).toBe(true);
 
         expect(board.isInCheckmate("white")).toBe(true);
       });
     });
 
     describe("When king is not in checkmate", () => {
+      test("King is not in check", () => {
+        const board = new Board();
+        board.placePiece(new King("white", [4, 4], board), [4, 4]);
+        board.placePiece(new Queen("black", [0, 1], board), [0, 1]);
+
+        expect(board.isInCheckmate("white")).toBe(false);
+      });
+
       test("King can move out of check", () => {
         const board = new Board();
         board.placePiece(new King("white", [4, 4], board), [4, 4]);
