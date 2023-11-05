@@ -1,0 +1,11 @@
+#chess-board {
+  margin: auto;
+  max-height: 640px;
+  max-width: 640px;
+}
+
+#board-tile {
+  min-height: 80px;
+  min-width: 80px;
+  border: 1px solid black;
+}

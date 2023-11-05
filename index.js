@@ -1,8 +1,19 @@
-const Game = require("./src/game");
-const Board = require("./src/board");
+const root = document.getElementById("root");
 
-const board = new Board();
-board.initializeBoard();
+const boardDisplay = document.createElement("div");
+boardDisplay.setAttribute("id", "chess-board");
 
-const game = new Game(board);
-game.play();
+for (let i = 0; i < 8; i++) {
+  for (let j = 0; j < 8; j++) {
+    const button = document.createElement("button");
+    button.setAttribute("id", "board-tile");
+    button.row = i;
+    button.column = j;
+    button.addEventListener("click", () =>
+      console.log(`${button.row} ${button.column}`)
+    );
+    boardDisplay.appendChild(button);
+  }
+}
+
+root.appendChild(boardDisplay);
