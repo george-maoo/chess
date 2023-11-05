@@ -2,11 +2,11 @@
   "name": "chess",
   "version": "1.0.0",
   "description": "A chess game made in javascript",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "jest --verbose --run-in-band",
-    "start": "node index.js",
-    "build": "browserify index.js -o bundle.js"
+    "start": "node src/index.js",
+    "build": "browserify src/index.js -o public/bundle.js"
   },
   "author": "",
   "license": "ISC",

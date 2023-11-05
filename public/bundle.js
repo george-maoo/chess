@@ -1,11 +1,4 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-const Board = require("./src/board");
-const Game = require("./src/game");
-
-const board = new Board();
-console.log(board);
-
-},{"./src/board":2,"./src/game":3}],2:[function(require,module,exports){
 const Pawn = require("./pieces/pawn");
 const Bishop = require("./pieces/bishop");
 const Rook = require("./pieces/rook");
@@ -198,7 +191,7 @@ class Board {
 
 module.exports = Board;
 
-},{"./pieces/bishop":4,"./pieces/king":5,"./pieces/knight":6,"./pieces/pawn":7,"./pieces/queen":9,"./pieces/rook":10}],3:[function(require,module,exports){
+},{"./pieces/bishop":4,"./pieces/king":5,"./pieces/knight":6,"./pieces/pawn":7,"./pieces/queen":9,"./pieces/rook":10}],2:[function(require,module,exports){
 class Game {
   constructor(board) {
     this.board = board;
@@ -233,7 +226,72 @@ class Game {
 
 module.exports = Game;
 
-},{}],4:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
+const Board = require("./board");
+const Game = require("./game");
+const Pawn = require("./pieces/pawn");
+const King = require("./pieces/king");
+const Queen = require("./pieces/queen");
+const Knight = require("./pieces/knight");
+const Rook = require("./pieces/rook");
+const Bishop = require("./pieces/bishop");
+
+const board = new Board();
+board.initializeBoard();
+console.log(board);
+
+const root = document.getElementById("root");
+
+const canvas = document.createElement("canvas");
+canvas.setAttribute("id", "my-canvas");
+canvas.setAttribute("height", 648);
+canvas.setAttribute("width", 640);
+
+const ctx = canvas.getContext("2d");
+root.appendChild(canvas);
+
+const boardDisplay = document.createElement("div");
+boardDisplay.setAttribute("id", "chess-board");
+
+for (let i = 0; i < 8; i++) {
+  for (let j = 0; j < 8; j++) {
+    const button = document.createElement("button");
+
+    const atLoc = board.atLocation([i, j]);
+    if (atLoc instanceof Pawn) {
+      button.textContent = "P";
+    } else if (atLoc instanceof King) {
+      button.textContent = "K";
+    } else if (atLoc instanceof Knight) {
+      button.textContent = "KN";
+    } else if (atLoc instanceof Rook) {
+      button.textContent = "R";
+    } else if (atLoc instanceof Queen) {
+      button.textContent = "Q";
+    } else if (atLoc instanceof Bishop) {
+      button.textContent = "B";
+    } else {
+      button.textContent = "";
+    }
+    button.setAttribute("id", "board-tile");
+    button.pos = [i, j];
+    button.addEventListener("click", () => {
+      console.log(`${button.pos}`);
+    });
+    boardDisplay.appendChild(button);
+  }
+}
+
+for (let i = 0; i < 8; i++) {
+  for (let j = 0; j < 8; j++) {
+    ctx.fillStyle = (i + j) % 2 === 1 ? "rgb(184,139,74)" : "rgb(227,193,111)";
+    ctx.fillRect(i * 80, j * 81, 80, 81);
+  }
+}
+
+root.appendChild(boardDisplay);
+
+},{"./board":1,"./game":2,"./pieces/bishop":4,"./pieces/king":5,"./pieces/knight":6,"./pieces/pawn":7,"./pieces/queen":9,"./pieces/rook":10}],4:[function(require,module,exports){
 const Piece = require("./piece");
 const moveType = require("./utils/movetype");
 
@@ -531,4 +589,4 @@ module.exports = {
   pawnMove,
 };
 
-},{}]},{},[1]);
+},{}]},{},[3]);

@@ -1,0 +1,26 @@
+#chess-board {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  height: 648px;
+  width: 640px;
+}
+
+#board-tile {
+  z-index: 10;
+  height: 80px;
+  width: 80px;
+  border: none;
+  background: transparent;
+  font-weight: bold;
+  color: white;
+  font-size: 30px;
+}
+
+#my-canvas {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
