@@ -5,22 +5,10 @@ describe("Game", () => {
   describe("4 move checkmate", () => {
     test("White wins", () => {
       const whiteMoves = [
-        {
-          startPos: [6, 4],
-          endPos: [4, 4],
-        },
-        {
-          startPos: [7, 5],
-          endPos: [4, 2],
-        },
-        {
-          startPos: [7, 3],
-          endPos: [3, 7],
-        },
-        {
-          startPos: [3, 7],
-          endPos: [1, 5],
-        },
+        { startPos: [6, 4], endPos: [4, 4] },
+        { startPos: [7, 5], endPos: [4, 2] },
+        { startPos: [7, 3], endPos: [3, 7] },
+        { startPos: [3, 7], endPos: [1, 5] },
       ];
       const blackMoves = [
         { startPos: [1, 4], endPos: [3, 4] },
