@@ -139,6 +139,9 @@ class Board {
 
     return false;
   }
+
+  // how do i do this...
+  isInCheckmate() {}
 }
 
 module.exports = Board;
