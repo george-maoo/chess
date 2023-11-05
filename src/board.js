@@ -26,8 +26,6 @@ class Board {
   printBoard() {
     let board = "";
     this.board.forEach((row) => {
-      board += "-".repeat(15) + "\n";
-
       row.forEach((pos) => {
         board += `${pos === null ? " " : pos.stringRep()} `;
       });
