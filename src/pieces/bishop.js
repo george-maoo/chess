@@ -7,7 +7,7 @@ class Bishop extends Piece {
   }
 
   pieceImage() {
-    return this.color === "black" ? "img/pieces/bb" : "img/pieces/wb";
+    return this.color === "black" ? "bb.svg" : "wb.svg";
   }
 
   moveDirections() {

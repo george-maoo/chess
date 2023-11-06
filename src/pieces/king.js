@@ -7,7 +7,7 @@ class King extends Piece {
   }
 
   pieceImage() {
-    return this.color === "black" ? "img/pieces/bk" : "img/pieces/wk";
+    return this.color === "black" ? "bk.svg" : "wk.svg";
   }
 
   moveDirections() {

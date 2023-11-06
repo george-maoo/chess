@@ -7,7 +7,7 @@ class Pawn extends Piece {
   }
 
   pieceImage() {
-    return this.color === "black" ? "img/pieces/bp" : "img/pieces/wp";
+    return this.color === "black" ? "bp.svg" : "wp.svg";
   }
 
   // assume black always starts at top of board

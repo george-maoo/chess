@@ -7,7 +7,7 @@ class Queen extends Piece {
   }
 
   pieceImage() {
-    return this.color === "black" ? "img/pieces/bq" : "img/pieces/wq";
+    return this.color === "black" ? "bq.svg" : "wq.svg";
   }
 
   moveDirections() {

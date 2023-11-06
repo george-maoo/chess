@@ -7,7 +7,7 @@ class Knight extends Piece {
   }
 
   pieceImage() {
-    return this.color === "black" ? "img/pieces/bn" : "img/pieces/wn";
+    return this.color === "black" ? "bn.svg" : "wn.svg";
   }
 
   moveDirections() {
