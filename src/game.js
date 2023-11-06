@@ -1,11 +1,11 @@
 class Game {
   constructor(board, boardDisplay, messageDisplay, root) {
-    this.board = board;
     this.boardDisplay = boardDisplay;
-    this.messageDisplay = messageDisplay;
+    this.board = board;
     this.root = root;
     this.currentPlayer = "white";
     this.selectedPiece = null;
+    this.messageDisplay = messageDisplay;
   }
 
   startGame() {
@@ -23,7 +23,7 @@ class Game {
       }
     }
 
-    this.root.appendChild(chessBoard);
+    this.root.prepend(chessBoard);
     setTimeout(
       () =>
         this.boardDisplay.drawBoard(
@@ -40,7 +40,7 @@ class Game {
   handleClick(loc) {
     const piece = this.board.atLocation(loc);
 
-    if (!this.selectedPiece) {
+    if (!this.selectedPiece || (piece && piece.color === this.currentPlayer)) {
       this.setSelectedPiece(piece);
     } else {
       this.playTurn(loc);
@@ -65,10 +65,10 @@ class Game {
 
     if (pieceMoved) {
       this.swapPlayers();
-      this.messageDisplay.setMessage(`It is now ${this.currentPlayer}'s turn`);
+      this.messageDisplay.setMessage(`It is now ${this.currentPlayer}'s turn.`);
 
       if (this.board.isInCheck(this.currentPlayer)) {
-        this.messageDisplay.appendMessage(`${this.currentPlayer} is in check`);
+        this.messageDisplay.appendMessage(`${this.currentPlayer} is in check.`);
       }
 
       if (this.gameOver()) {
@@ -89,6 +89,7 @@ class Game {
   }
 
   endGame() {
+    this.swapPlayers();
     this.messageDisplay.setMessage(`Checkmate! ${this.currentPlayer} wins!`);
     this.swapPlayers();
     document.getElementById("chess-board").textContent = "";

@@ -33,6 +33,7 @@ class BoardDisplay {
     }
 
     if (selectedPiece) {
+      this.drawPiece(selectedPiece, "rgb(66, 90, 148)");
       this.highlightMoves(selectedPiece);
     }
 
@@ -42,6 +43,9 @@ class BoardDisplay {
   }
 
   drawPiece(piece, bgColor = null) {
+    if (piece.constructor.name === "King" && bgColor === "red") {
+      console.log("ALSO RAN");
+    }
     const { tileSize } = this;
     const [row, col] = piece.location;
     const pieceImage = this.pieceImages.getPieceImage(piece);
@@ -70,7 +74,7 @@ class BoardDisplay {
       const enemyPiece = this.board.atLocation([row, col]);
 
       if (enemyPiece) {
-        this.drawPiece(enemyPiece, "rgb(196, 77, 77)");
+        this.drawPiece(enemyPiece, "rgb(178, 34, 34)");
       }
 
       this.ctx.fillStyle = "rgb(66, 66, 67)";
@@ -88,6 +92,7 @@ class BoardDisplay {
   }
 
   highlightKing(color) {
+    console.log("RAN");
     const king = this.board
       .getPieces(color)
       .find((piece) => piece.constructor.name === "King");

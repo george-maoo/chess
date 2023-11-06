@@ -2,7 +2,7 @@ class MessageDisplay {
   constructor(root) {
     const messageDisplay = document.createElement("div");
     messageDisplay.setAttribute("id", "message-display");
-    root.appendChild(messageDisplay);
+    root.append(messageDisplay);
 
     this.messageDisplay = messageDisplay;
   }
@@ -12,6 +12,7 @@ class MessageDisplay {
   }
 
   appendMessage(text) {
+    this.messageDisplay.textContent += "\r\n";
     this.messageDisplay.textContent += text;
   }
 }
