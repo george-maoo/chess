@@ -1,13 +1,16 @@
 class Game {
-  constructor(board, boardDisplay, chessBoard) {
+  constructor(board, boardDisplay, root) {
     this.board = board;
     this.currentPlayer = "white";
     this.boardDisplay = boardDisplay;
     this.selectedPiece = null;
-    this.chessBoard = chessBoard;
+    this.root = root;
   }
 
-  play() {
+  startGame() {
+    const chessBoard = document.createElement("div");
+    chessBoard.setAttribute("id", "chess-board");
+
     for (let row = 0; row < 8; row++) {
       for (let col = 0; col < 8; col++) {
         const button = document.createElement("button");
@@ -15,43 +18,60 @@ class Game {
 
         button.addEventListener("click", () => this.handleClick([row, col]));
 
-        this.chessBoard.appendChild(button);
+        chessBoard.appendChild(button);
       }
     }
+
+    this.root.appendChild(chessBoard);
+    setTimeout(
+      () =>
+        this.boardDisplay.drawBoard(
+          this.board,
+          this.currentPlayer,
+          this.selectedPiece
+        ),
+      100
+    );
   }
 
   handleClick(loc) {
     const piece = this.board.atLocation(loc);
 
-    if (!this.selectedPiece || piece.color === this.currentPlayer) {
-      this.selectedPiece = piece;
+    if (!this.selectedPiece) {
+      this.setSelectedPiece(piece);
     } else {
-      this.playTurn(move);
+      this.playTurn(loc);
     }
+  }
 
-    this.boardDisplay.drawBoard(this.board, this.selectedPiece);
-    this.selectedPiece = null;
+  setSelectedPiece(piece) {
+    if (!piece || piece.color !== this.currentPlayer) return;
+
+    this.selectedPiece = piece;
+    this.boardDisplay.drawBoard(
+      this.board,
+      this.currentPlayer,
+      this.selectedPiece
+    );
   }
 
   playTurn(move) {
     const piece = this.selectedPiece;
+
     const pieceMoved = this.board.movePiece(piece.location, move);
 
-    if (!pieceMoved) {
-      this.selectedPiece = null;
-      return;
-    }
+    if (pieceMoved) this.swapPlayers();
 
-    console.log("Piece moved");
-    if (this.board.isInCheck(this.currentPlayer)) {
-      console.log(`${this.currentPlayer} is in check!`);
-    }
+    this.selectedPiece = null;
+    this.boardDisplay.drawBoard(
+      this.board,
+      this.currentPlayer,
+      this.selectedPiece
+    );
 
     if (this.gameOver()) {
       this.endGame();
     }
-
-    this.swapPlayers();
   }
 
   gameOver() {
@@ -61,7 +81,7 @@ class Game {
   endGame() {
     this.swapPlayers();
     console.log(`Checkmate! ${this.currentPlayer} wins!`);
-    this.chessBoard.textContent = "";
+    document.getElementById("chess-board").textContent = "";
   }
 
   swapPlayers() {

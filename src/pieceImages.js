@@ -1,4 +1,4 @@
-class pieceImages {
+class PieceImages {
   constructor() {
     this.pieceImages = {
       black: {
@@ -40,4 +40,4 @@ class pieceImages {
   }
 }
 
-export default pieceImages;
+export default PieceImages;
