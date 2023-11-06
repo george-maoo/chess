@@ -23,7 +23,7 @@ class Pawn extends Piece {
     );
   }
 
-  validMoves() {
+  possibleMoves() {
     return pawnMove(this);
   }
 }

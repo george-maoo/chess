@@ -19,7 +19,7 @@ class Rook extends Piece {
     ];
   }
 
-  validMoves() {
+  possibleMoves() {
     return multiMove(this);
   }
 }

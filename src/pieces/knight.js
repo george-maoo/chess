@@ -23,7 +23,7 @@ class Knight extends Piece {
     ];
   }
 
-  validMoves() {
+  possibleMoves() {
     return singleMove(this);
   }
 }

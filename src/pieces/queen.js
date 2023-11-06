@@ -23,7 +23,7 @@ class Queen extends Piece {
     ];
   }
 
-  validMoves() {
+  possibleMoves() {
     return multiMove(this);
   }
 }

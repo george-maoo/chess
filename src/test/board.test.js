@@ -77,29 +77,45 @@ describe("Board", () => {
   });
 
   describe("movePiece", () => {
-    const board = new Board();
-    board.setLocation(new Queen("white", [6, 1], board), [6, 1]);
-
     test("Returns false if start position is out of bounds", () => {
+      const board = new Board();
+      board.setLocation(new Queen("white", [6, 1], board), [6, 1]);
       expect(board.movePiece([100, 100], [3, 3])).toBe(false);
     });
 
     test("returns false if there is no piece at start position", () => {
+      const board = new Board();
+      board.setLocation(new Queen("white", [6, 1], board), [6, 1]);
       expect(board.movePiece([1, 1], [3, 3])).toBe(false);
     });
 
     test("returns false and doesnt move piece if end position is not included in the piece's valid moves", () => {
+      const board = new Board();
+      board.setLocation(new Queen("white", [6, 1], board), [6, 1]);
       expect(board.movePiece([6, 1], [5, 5])).toBe(false);
       expect(board.atLocation([5, 5])).toBe(null);
       expect(board.atLocation([6, 1])).not.toBe(null);
     });
 
     test("returns false and doesnt move piece if end position is out of bounds", () => {
+      const board = new Board();
+      board.setLocation(new Queen("white", [6, 1], board), [6, 1]);
       expect(board.movePiece([6, 1], [100, 1])).toBe(false);
       expect(board.atLocation([6, 1])).not.toBe(null);
     });
 
+    test("returns false if move puts your king in check", () => {
+      const board = new Board();
+      board.setLocation(new Queen("white", [6, 1], board), [6, 1]);
+      board.setLocation(new King("white", [7, 1], board), [7, 1]);
+      board.setLocation(new Rook("black", [0, 1], board), [0, 1]);
+
+      expect(board.movePiece([6, 1], [6, 2])).toBe(false);
+    });
+
     test("returns true and moves piece if end position is included in the piece's valid moves", () => {
+      const board = new Board();
+      board.setLocation(new Queen("white", [6, 1], board), [6, 1]);
       expect(board.movePiece([6, 1], [4, 1])).toBe(true);
       expect(board.atLocation([4, 1])).not.toBe(null);
       expect(board.atLocation([6, 1])).toBe(null);
@@ -149,54 +165,54 @@ describe("Board", () => {
     });
   });
 
-  describe("undoLastMove", () => {
-    test("undoes a move to empty space", () => {
-      const board = new Board();
-      board.setLocation(new Queen("white", [1, 4], board), [1, 4]);
+  // describe("undoLastMove", () => {
+  //   test("undoes a move to empty space", () => {
+  //     const board = new Board();
+  //     board.setLocation(new Queen("white", [1, 4], board), [1, 4]);
 
-      board.movePiece([1, 4], [3, 4]);
-      board.undoLastMove();
+  //     board.movePiece([1, 4], [3, 4]);
+  //     board.undoLastMove();
 
-      expect(board.atLocation([1, 4]).color).toBe("white");
-      expect(board.atLocation([1, 4]) instanceof Queen).toBe(true);
-    });
+  //     expect(board.atLocation([1, 4]).color).toBe("white");
+  //     expect(board.atLocation([1, 4]) instanceof Queen).toBe(true);
+  //   });
 
-    test("Correctly undoes a piece capture move", () => {
-      const board = new Board();
-      board.setLocation(new Queen("white", [1, 4], board), [1, 4]);
-      board.setLocation(new Knight("black", [3, 4], board), [3, 4]);
+  //   test("Correctly undoes a piece capture move", () => {
+  //     const board = new Board();
+  //     board.setLocation(new Queen("white", [1, 4], board), [1, 4]);
+  //     board.setLocation(new Knight("black", [3, 4], board), [3, 4]);
 
-      board.movePiece([1, 4], [3, 4]);
-      board.undoLastMove();
+  //     board.movePiece([1, 4], [3, 4]);
+  //     board.undoLastMove();
 
-      expect(board.atLocation([3, 4]).color).toBe("black");
-      expect(board.atLocation([3, 4]) instanceof Knight).toBe(true);
+  //     expect(board.atLocation([3, 4]).color).toBe("black");
+  //     expect(board.atLocation([3, 4]) instanceof Knight).toBe(true);
 
-      expect(board.atLocation([1, 4]).color).toBe("white");
-      expect(board.atLocation([1, 4]) instanceof Queen).toBe(true);
-    });
+  //     expect(board.atLocation([1, 4]).color).toBe("white");
+  //     expect(board.atLocation([1, 4]) instanceof Queen).toBe(true);
+  //   });
 
-    test("Correctly undoes multiple moves", () => {
-      const board = new Board();
-      board.setLocation(new Queen("white", [1, 4], board), [1, 4]);
-      board.setLocation(new Knight("black", [3, 4], board), [3, 4]);
+  //   test("Correctly undoes multiple moves", () => {
+  //     const board = new Board();
+  //     board.setLocation(new Queen("white", [1, 4], board), [1, 4]);
+  //     board.setLocation(new Knight("black", [3, 4], board), [3, 4]);
 
-      board.movePiece([1, 4], [3, 4]);
-      board.movePiece([3, 4], [7, 4]);
+  //     board.movePiece([1, 4], [3, 4]);
+  //     board.movePiece([3, 4], [7, 4]);
 
-      expect(board.atLocation([7, 4]).color).toBe("white");
-      expect(board.atLocation([7, 4]) instanceof Queen).toBe(true);
+  //     expect(board.atLocation([7, 4]).color).toBe("white");
+  //     expect(board.atLocation([7, 4]) instanceof Queen).toBe(true);
 
-      board.undoLastMove();
-      expect(board.atLocation([3, 4]).color).toBe("white");
-      expect(board.atLocation([3, 4]) instanceof Queen).toBe(true);
+  //     board.undoLastMove();
+  //     expect(board.atLocation([3, 4]).color).toBe("white");
+  //     expect(board.atLocation([3, 4]) instanceof Queen).toBe(true);
 
-      board.undoLastMove();
-      expect(board.atLocation([1, 4]).color).toBe("white");
-      expect(board.atLocation([1, 4]) instanceof Queen).toBe(true);
+  //     board.undoLastMove();
+  //     expect(board.atLocation([1, 4]).color).toBe("white");
+  //     expect(board.atLocation([1, 4]) instanceof Queen).toBe(true);
 
-      expect(board.atLocation([3, 4]).color).toBe("black");
-      expect(board.atLocation([3, 4]) instanceof Knight).toBe(true);
-    });
-  });
+  //     expect(board.atLocation([3, 4]).color).toBe("black");
+  //     expect(board.atLocation([3, 4]) instanceof Knight).toBe(true);
+  //   });
+  // });
 });

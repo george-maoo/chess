@@ -1,6 +1,6 @@
 // for all pieces that can move multiple tiles:
 /*
-for every move in validMoves, check every possible move in that direction
+for every move in possibleMoves, check every possible move in that direction
 until you hit:
   - another piece
     - if piece is same color:

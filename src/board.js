@@ -8,7 +8,6 @@ import King from "./pieces/king.js";
 // the board to play on
 class Board {
   constructor() {
-    // TODO find a better way to initialize board
     this.board = [
       [null, null, null, null, null, null, null, null],
       [null, null, null, null, null, null, null, null],
@@ -81,39 +80,61 @@ class Board {
     }
   }
 
-  // checks if move is included in listOfMoves, returns true if included, false if not
+  // checks if move is included in listOfMoves
   includesMove(listOfMoves, endPos) {
     return listOfMoves.some(
       (move) => move[0] === endPos[0] && move[1] === endPos[1]
     );
   }
 
-  // moves the piece from the start pos to end pos
-  // returns true if piece is moved, returns false if end position is invalid
-  movePiece(startPos, endPos) {
-    // check if given start pos is in bounds before doing anything
+  // checks that a move doesnt put king in check
+  moveIsSafe(piece, move) {
+    this.pushUndoStack(piece.location, move);
+
+    const startPos = piece.location;
+    this.setLocation(this.atLocation(startPos), move);
+    this.setLocation(null, startPos);
+    this.atLocation(move).location = move;
+
+    const safe = !this.isInCheck(piece.color);
+    this.undoLastMove();
+
+    return safe;
+  }
+
+  legalMoves(piece) {
+    return piece.possibleMoves().filter((move) => this.moveIsSafe(piece, move));
+  }
+
+  moveIsLegal(startPos, endPos) {
     if (!this.isInBounds(startPos)) return false;
 
-    // check if piece exists
-    // check if end position is included in the valid moves of the piece
     const piece = this.atLocation(startPos);
+    if (!piece) return false;
 
-    if (!piece || !this.includesMove(piece.validMoves(), endPos)) {
-      return false;
-    }
+    if (!this.includesMove(this.legalMoves(piece), endPos)) return false;
 
-    this.undoStack.push({
-      oldPos: startPos,
-      newPos: endPos,
-      atOldPos: this.atLocation(startPos),
-      atNewPos: this.atLocation(endPos),
-    });
+    return true;
+  }
+
+  // returns true if piece is moved, returns false if end position is invalid
+  movePiece(startPos, endPos) {
+    if (!this.moveIsLegal(startPos, endPos)) return false;
 
     this.setLocation(this.atLocation(startPos), endPos);
     this.setLocation(null, startPos);
 
     this.atLocation(endPos).location = endPos;
     return true;
+  }
+
+  pushUndoStack(startPos, endPos) {
+    this.undoStack.push({
+      oldPos: startPos,
+      newPos: endPos,
+      atOldPos: this.atLocation(startPos),
+      atNewPos: this.atLocation(endPos),
+    });
   }
 
   undoLastMove() {
@@ -143,15 +164,13 @@ class Board {
     return this.isInBounds(posToCheck) && this.atLocation(posToCheck) === null;
   }
 
-  // find the king with the color passed in - DONE
-  // check all enemy moves to see if the king gets hit by any of them - DONE
-  // return true if in check, false if not
+  // check all enemy moves to see if the king gets hit by any of them
   isInCheck(color) {
     const king = this.getPieces(color).find((piece) => piece instanceof King);
     const enemyColor = color === "black" ? "white" : "black";
 
     for (const enemyPiece of this.getPieces(enemyColor)) {
-      if (this.includesMove(enemyPiece.validMoves(), king.location)) {
+      if (this.includesMove(enemyPiece.possibleMoves(), king.location)) {
         return true;
       }
     }
@@ -159,29 +178,13 @@ class Board {
     return false;
   }
 
-  // checks that a move doesnt put king in check
-  moveIsSafe(color, piece, move) {
-    this.movePiece(piece.location, move);
-    const safe = !this.isInCheck(color);
-    this.undoLastMove();
-
-    return safe;
-  }
-
-  /*
-  first check if player is in check
-  check all moves that the player in check can make
-  if none of those moves move them out of checkmate, return true, else return false
-   */
+  // check all moves that the player in check can make
+  // if none of those moves move them out of checkmate, return true, else return false
   isInCheckmate(color) {
     if (!this.isInCheck(color)) return false;
 
     for (const piece of this.getPieces(color)) {
-      for (const move of piece.validMoves()) {
-        if (this.moveIsSafe(color, piece, move)) {
-          return false;
-        }
-      }
+      if (this.legalMoves(piece).length !== 0) return false;
     }
 
     return true;

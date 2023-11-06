@@ -23,7 +23,7 @@ class King extends Piece {
     ];
   }
 
-  validMoves() {
+  possibleMoves() {
     return singleMove(this);
   }
 }

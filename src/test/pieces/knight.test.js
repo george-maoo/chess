@@ -1,17 +1,17 @@
 import Board from "../../board.js";
 import Knight from "../../pieces/knight.js";
 import Pawn from "../../pieces/pawn.js";
-import { validMoveValidator } from "./helper.js";;
+import { possibleMovesValidator } from "./helper.js";;
 
 describe("Knight", () => {
-  // in expectedValidMoves, a 1 represents a valid move, a 0 represents invalid move
+  // in expectedPossibleMoves, a 1 represents a valid move, a 0 represents invalid move
   describe("Knight movement", () => {
     test("Can do weird knight L shape movement in all 8 directions", () => {
       const board = new Board();
       board.setLocation(new Knight("white", [4, 4], board), [4, 4]);
 
-      const validMoves = board.board[4][4].validMoves();
-      const expectedValidMoves = [
+      const possibleMoves = board.board[4][4].possibleMoves();
+      const expectedPossibleMoves = [
         [0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 1, 0, 1, 0, 0],
@@ -22,7 +22,7 @@ describe("Knight", () => {
         [0, 0, 0, 0, 0, 0, 0, 0],
       ];
 
-      expect(validMoveValidator(expectedValidMoves, validMoves)).toBe(
+      expect(possibleMovesValidator(expectedPossibleMoves, possibleMoves)).toBe(
         true
       );
     });
@@ -41,8 +41,8 @@ describe("Knight", () => {
       board.setLocation(new Pawn("black", [5, 4], board), [5, 4]);
       board.setLocation(new Pawn("white", [5, 5], board), [5, 5]);
 
-      const validMoves = board.board[4][4].validMoves();
-      const expectedValidMoves = [
+      const possibleMoves = board.board[4][4].possibleMoves();
+      const expectedPossibleMoves = [
         [0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 1, 0, 1, 0, 0],
@@ -53,7 +53,7 @@ describe("Knight", () => {
         [0, 0, 0, 0, 0, 0, 0, 0],
       ];
 
-      expect(validMoveValidator(expectedValidMoves, validMoves)).toBe(
+      expect(possibleMovesValidator(expectedPossibleMoves, possibleMoves)).toBe(
         true
       );
     });
@@ -68,8 +68,8 @@ describe("Knight", () => {
       board.setLocation(new Pawn("white", [6, 3], board), [6, 3]);
       board.setLocation(new Pawn("white", [3, 6], board), [3, 6]);
 
-      const validMoves = board.board[4][4].validMoves();
-      const expectedValidMoves = [
+      const possibleMoves = board.board[4][4].possibleMoves();
+      const expectedPossibleMoves = [
         [0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 1, 0, 0],
@@ -80,7 +80,7 @@ describe("Knight", () => {
         [0, 0, 0, 0, 0, 0, 0, 0],
       ];
 
-      expect(validMoveValidator(expectedValidMoves, validMoves)).toBe(
+      expect(possibleMovesValidator(expectedPossibleMoves, possibleMoves)).toBe(
         true
       );
     });
@@ -95,8 +95,8 @@ describe("Knight", () => {
       board.setLocation(new Pawn("black", [6, 3], board), [6, 3]);
       board.setLocation(new Pawn("black", [3, 6], board), [3, 6]);
 
-      const validMoves = board.board[4][4].validMoves();
-      const expectedValidMoves = [
+      const possibleMoves = board.board[4][4].possibleMoves();
+      const expectedPossibleMoves = [
         [0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 1, 0, 1, 0, 0],
@@ -107,7 +107,7 @@ describe("Knight", () => {
         [0, 0, 0, 0, 0, 0, 0, 0],
       ];
 
-      expect(validMoveValidator(expectedValidMoves, validMoves)).toBe(
+      expect(possibleMovesValidator(expectedPossibleMoves, possibleMoves)).toBe(
         true
       );
     });

@@ -19,7 +19,7 @@ class Bishop extends Piece {
     ];
   }
 
-  validMoves() {
+  possibleMoves() {
     return multiMove(this);
   }
 }
