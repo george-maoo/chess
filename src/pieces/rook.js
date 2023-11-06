@@ -2,11 +2,11 @@ import Piece from "./piece.js";
 import { multiMove } from "./utils/movetype.js";
 
 class Rook extends Piece {
-  stringRep() {
+  pieceSymbol() {
     return this.color === "black" ? "♜" : "♖";
   }
 
-  imgRep() {
+  pieceImage() {
     return this.color === "black" ? "img/pieces/br" : "img/pieces/wr";
   }
 

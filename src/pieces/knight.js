@@ -2,11 +2,11 @@ import Piece from "./piece.js";
 import { singleMove } from "./utils/movetype.js";
 
 class Knight extends Piece {
-  stringRep() {
+  pieceSymbol() {
     return this.color === "black" ? "♞" : "♘";
   }
 
-  imgRep() {
+  pieceImage() {
     return this.color === "black" ? "img/pieces/bn" : "img/pieces/wn";
   }
 

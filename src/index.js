@@ -61,7 +61,7 @@ const renderBoard = () => {
         img.onload = () => {
           ctx.drawImage(img, 80 * j, 81 * i, 80, 81);
         };
-        img.src = `./../src/${loc.imgRep()}.svg`;
+        img.src = `./../src/${loc.pieceImage()}.svg`;
       }
     }
   }
