@@ -1,10 +1,11 @@
 class Game {
-  constructor(board, boardDisplay, root) {
+  constructor(board, boardDisplay, messageDisplay, root) {
     this.board = board;
-    this.currentPlayer = "white";
     this.boardDisplay = boardDisplay;
-    this.selectedPiece = null;
+    this.messageDisplay = messageDisplay;
     this.root = root;
+    this.currentPlayer = "white";
+    this.selectedPiece = null;
   }
 
   startGame() {
@@ -32,6 +33,8 @@ class Game {
         ),
       100
     );
+
+    this.messageDisplay.setMessage(`It is now ${this.currentPlayer}'s turn`);
   }
 
   handleClick(loc) {
@@ -60,7 +63,18 @@ class Game {
 
     const pieceMoved = this.board.movePiece(piece.location, move);
 
-    if (pieceMoved) this.swapPlayers();
+    if (pieceMoved) {
+      this.swapPlayers();
+      this.messageDisplay.setMessage(`It is now ${this.currentPlayer}'s turn`);
+
+      if (this.board.isInCheck(this.currentPlayer)) {
+        this.messageDisplay.appendMessage(`${this.currentPlayer} is in check`);
+      }
+
+      if (this.gameOver()) {
+        this.endGame();
+      }
+    }
 
     this.selectedPiece = null;
     this.boardDisplay.drawBoard(
@@ -68,10 +82,6 @@ class Game {
       this.currentPlayer,
       this.selectedPiece
     );
-
-    if (this.gameOver()) {
-      this.endGame();
-    }
   }
 
   gameOver() {
@@ -79,8 +89,8 @@ class Game {
   }
 
   endGame() {
+    this.messageDisplay.setMessage(`Checkmate! ${this.currentPlayer} wins!`);
     this.swapPlayers();
-    console.log(`Checkmate! ${this.currentPlayer} wins!`);
     document.getElementById("chess-board").textContent = "";
   }
 
