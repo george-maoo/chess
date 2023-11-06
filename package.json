@@ -6,8 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "jest --verbose --run-in-band",
-    "start": "node src/index.js",
-    "build": "browserify src/index.js -o public/bundle.js"
+    "start": "node src/index.js"
   },
   "author": "",
   "license": "ISC",

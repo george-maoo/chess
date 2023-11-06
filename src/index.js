@@ -1,7 +1,7 @@
 import Board from "./board.js";
 import Game from "./game.js";
-import BoardDisplay from "./boardDisplay.js";
-import MessageDisplay from "./messageDisplay.js";
+import BoardDisplay from "./display/boardDisplay.js";
+import MessageDisplay from "./display/messageDisplay.js";
 
 const root = document.getElementById("root");
 
