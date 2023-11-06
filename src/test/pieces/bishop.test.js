@@ -1,7 +1,7 @@
-const Board = require("../../board");
-const Bishop = require("../../pieces/bishop");
-const Pawn = require("../../pieces/pawn");
-const helper = require("./helper");
+import Board from "../../board.js";
+import Bishop from "../../pieces/bishop.js";
+import Pawn from "../../pieces/pawn.js";
+import { validMoveValidator } from "./helper.js";
 
 describe("Bishop", () => {
   // in expectedValidMoves, a 1 represents a valid move, a 0 represents invalid move
@@ -22,9 +22,7 @@ describe("Bishop", () => {
         [0, 1, 0, 0, 0, 0, 0, 1],
       ];
 
-      expect(helper.validMoveValidator(expectedValidMoves, validMoves)).toBe(
-        true
-      );
+      expect(validMoveValidator(expectedValidMoves, validMoves)).toBe(true);
     });
 
     test("Can only move diagonally towards bottom left when placed in row 0, column 7", () => {
@@ -43,9 +41,7 @@ describe("Bishop", () => {
         [1, 0, 0, 0, 0, 0, 0, 0],
       ];
 
-      expect(helper.validMoveValidator(expectedValidMoves, validMoves)).toBe(
-        true
-      );
+      expect(validMoveValidator(expectedValidMoves, validMoves)).toBe(true);
     });
 
     test("Cant move over/move on piece of same color", () => {
@@ -68,9 +64,7 @@ describe("Bishop", () => {
         [0, 0, 0, 0, 0, 0, 0, 0],
       ];
 
-      expect(helper.validMoveValidator(expectedValidMoves, validMoves)).toBe(
-        true
-      );
+      expect(validMoveValidator(expectedValidMoves, validMoves)).toBe(true);
     });
 
     test("Can move on enemy piece but not over them", () => {
@@ -93,9 +87,7 @@ describe("Bishop", () => {
         [0, 0, 0, 0, 0, 0, 0, 1],
       ];
 
-      expect(helper.validMoveValidator(expectedValidMoves, validMoves)).toBe(
-        true
-      );
+      expect(validMoveValidator(expectedValidMoves, validMoves)).toBe(true);
     });
   });
 });

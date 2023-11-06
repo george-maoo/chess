@@ -36,6 +36,4 @@ const validMoveValidator = (expectedValidMoves, validMoves, debug = false) => {
   );
 };
 
-module.exports = {
-  validMoveValidator,
-};
+export { validMoveValidator };

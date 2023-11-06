@@ -1,7 +1,7 @@
-const Board = require("../../board");
-const Knight = require("../../pieces/knight");
-const Pawn = require("../../pieces/pawn");
-const helper = require("./helper");
+import Board from "../../board.js";
+import Knight from "../../pieces/knight.js";
+import Pawn from "../../pieces/pawn.js";
+import { validMoveValidator } from "./helper.js";;
 
 describe("Knight", () => {
   // in expectedValidMoves, a 1 represents a valid move, a 0 represents invalid move
@@ -22,7 +22,7 @@ describe("Knight", () => {
         [0, 0, 0, 0, 0, 0, 0, 0],
       ];
 
-      expect(helper.validMoveValidator(expectedValidMoves, validMoves)).toBe(
+      expect(validMoveValidator(expectedValidMoves, validMoves)).toBe(
         true
       );
     });
@@ -53,7 +53,7 @@ describe("Knight", () => {
         [0, 0, 0, 0, 0, 0, 0, 0],
       ];
 
-      expect(helper.validMoveValidator(expectedValidMoves, validMoves)).toBe(
+      expect(validMoveValidator(expectedValidMoves, validMoves)).toBe(
         true
       );
     });
@@ -80,7 +80,7 @@ describe("Knight", () => {
         [0, 0, 0, 0, 0, 0, 0, 0],
       ];
 
-      expect(helper.validMoveValidator(expectedValidMoves, validMoves)).toBe(
+      expect(validMoveValidator(expectedValidMoves, validMoves)).toBe(
         true
       );
     });
@@ -107,7 +107,7 @@ describe("Knight", () => {
         [0, 0, 0, 0, 0, 0, 0, 0],
       ];
 
-      expect(helper.validMoveValidator(expectedValidMoves, validMoves)).toBe(
+      expect(validMoveValidator(expectedValidMoves, validMoves)).toBe(
         true
       );
     });

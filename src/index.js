@@ -1,11 +1,5 @@
-const Board = require("./board");
-const Game = require("./game");
-const Pawn = require("./pieces/pawn");
-const King = require("./pieces/king");
-const Queen = require("./pieces/queen");
-const Knight = require("./pieces/knight");
-const Rook = require("./pieces/rook");
-const Bishop = require("./pieces/bishop");
+import Board from "./board.js";
+import Game from "./game.js";
 
 const board = new Board();
 board.initializeBoard();
@@ -26,7 +20,7 @@ const boardDisplay = document.createElement("div");
 boardDisplay.setAttribute("id", "chess-board");
 
 let count = 0;
-x = [];
+const x = [];
 
 const gamePlayFunc = (loc) => {
   if (count === 0) {

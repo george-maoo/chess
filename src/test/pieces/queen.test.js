@@ -1,7 +1,7 @@
-const Queen = require("../../pieces/queen");
-const Pawn = require("../../pieces/pawn");
-const Board = require("../../board");
-const helper = require("./helper");
+import Queen from "../../pieces/queen.js";
+import Pawn from "../../pieces/pawn.js";
+import Board from "../../board.js";
+import { validMoveValidator } from "./helper.js";
 
 describe("Queen", () => {
   // in expectedValidMoves, a 1 represents a valid move, a 0 represents invalid move
@@ -22,9 +22,7 @@ describe("Queen", () => {
         [0, 1, 0, 0, 1, 0, 0, 1],
       ];
 
-      expect(helper.validMoveValidator(expectedValidMoves, validMoves)).toBe(
-        true
-      );
+      expect(validMoveValidator(expectedValidMoves, validMoves)).toBe(true);
     });
 
     test("Can only move right, down, and diagonally when placed at row 0, column 0", () => {
@@ -43,9 +41,7 @@ describe("Queen", () => {
         [1, 0, 0, 0, 0, 0, 0, 1],
       ];
 
-      expect(helper.validMoveValidator(expectedValidMoves, validMoves)).toBe(
-        true
-      );
+      expect(validMoveValidator(expectedValidMoves, validMoves)).toBe(true);
     });
 
     test("Cant move over other pieces or on piece with same color", () => {
@@ -69,9 +65,7 @@ describe("Queen", () => {
         [0, 0, 0, 0, 1, 0, 0, 0],
       ];
 
-      expect(helper.validMoveValidator(expectedValidMoves, validMoves)).toBe(
-        true
-      );
+      expect(validMoveValidator(expectedValidMoves, validMoves)).toBe(true);
     });
 
     test("Should be able to move on top of enemy pieces but not over them", () => {
@@ -94,9 +88,7 @@ describe("Queen", () => {
         [0, 0, 0, 0, 1, 0, 0, 0],
       ];
 
-      expect(helper.validMoveValidator(expectedValidMoves, validMoves)).toBe(
-        true
-      );
+      expect(validMoveValidator(expectedValidMoves, validMoves)).toBe(true);
     });
   });
 });

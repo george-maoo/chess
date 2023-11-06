@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A chess game made in javascript",
   "main": "src/index.js",
+  "type": "module",
   "scripts": {
     "test": "jest --verbose --run-in-band",
     "start": "node src/index.js",
@@ -11,9 +12,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.23.0",
     "jest": "^29.7.0"
-  },
-  "dependencies": {
-    "browserify": "^17.0.0"
   }
 }

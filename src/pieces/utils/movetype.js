@@ -112,8 +112,4 @@ const pawnMove = (piece) => {
   return moves;
 };
 
-module.exports = {
-  multiMove,
-  singleMove,
-  pawnMove,
-};
+export { singleMove, multiMove, pawnMove };

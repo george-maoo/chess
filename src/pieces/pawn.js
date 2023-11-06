@@ -1,5 +1,5 @@
-const Piece = require("./piece");
-const moveType = require("./utils/movetype");
+import Piece from "./piece.js";
+import { pawnMove } from "./utils/movetype.js";
 
 class Pawn extends Piece {
   stringRep() {
@@ -24,8 +24,8 @@ class Pawn extends Piece {
   }
 
   validMoves() {
-    return moveType.pawnMove(this);
+    return pawnMove(this);
   }
 }
 
-module.exports = Pawn;
+export default Pawn;

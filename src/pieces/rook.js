@@ -1,5 +1,5 @@
-const Piece = require("./piece");
-const moveType = require("./utils/movetype");
+import Piece from "./piece.js";
+import { multiMove } from "./utils/movetype.js";
 
 class Rook extends Piece {
   stringRep() {
@@ -20,8 +20,8 @@ class Rook extends Piece {
   }
 
   validMoves() {
-    return moveType.multiMove(this);
+    return multiMove(this);
   }
 }
 
-module.exports = Rook;
+export default Rook;

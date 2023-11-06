@@ -1,5 +1,5 @@
-const Board = require("./../board");
-const Game = require("./../game");
+import Board from "./../board.js";
+import Game from "./../game.js";
 
 describe("Game", () => {
   describe("4 move checkmate", () => {

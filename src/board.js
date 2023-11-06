@@ -1,9 +1,9 @@
-const Pawn = require("./pieces/pawn");
-const Bishop = require("./pieces/bishop");
-const Rook = require("./pieces/rook");
-const Knight = require("./pieces/knight");
-const Queen = require("./pieces/queen");
-const King = require("./pieces/king");
+import Pawn from "./pieces/pawn.js";
+import Bishop from "./pieces/bishop.js";
+import Rook from "./pieces/rook.js";
+import Knight from "./pieces/knight.js";
+import Queen from "./pieces/queen.js";
+import King from "./pieces/king.js";
 
 // the board to play on
 class Board {
@@ -188,4 +188,4 @@ class Board {
   }
 }
 
-module.exports = Board;
+export default Board;

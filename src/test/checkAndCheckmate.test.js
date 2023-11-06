@@ -1,10 +1,10 @@
-const Board = require("../board");
-const Pawn = require("../pieces/pawn");
-const Bishop = require("../pieces/bishop");
-const Rook = require("../pieces/rook");
-const Knight = require("../pieces/knight");
-const Queen = require("../pieces/queen");
-const King = require("../pieces/king");
+import Board from "../board.js";
+import Pawn from "../pieces/pawn.js";
+import Bishop from "../pieces/bishop.js";
+import Rook from "../pieces/rook.js";
+import Knight from "../pieces/knight.js";
+import Queen from "../pieces/queen.js";
+import King from "../pieces/king.js";
 
 describe("Check and Checkmate", () => {
   describe("isInCheck", () => {

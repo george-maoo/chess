@@ -1,6 +1,6 @@
-const Pawn = require("./../../pieces/pawn");
-const Board = require("./../../board");
-const helper = require("./helper");
+import Pawn from "./../../pieces/pawn.js";
+import Board from "./../../board.js";
+import { validMoveValidator } from "./helper.js";;
 
 describe("Pawn", () => {
   // in expectedValidMoves, a 1 represents a valid move, a 0 represents invalid move
@@ -22,7 +22,7 @@ describe("Pawn", () => {
           [0, 0, 0, 0, 0, 0, 0, 0],
         ];
 
-        expect(helper.validMoveValidator(expectedValidMoves, validMoves)).toBe(
+        expect(validMoveValidator(expectedValidMoves, validMoves)).toBe(
           true
         );
       });
@@ -43,7 +43,7 @@ describe("Pawn", () => {
           [0, 0, 0, 0, 0, 0, 0, 0],
         ];
 
-        expect(helper.validMoveValidator(expectedValidMoves, validMoves)).toBe(
+        expect(validMoveValidator(expectedValidMoves, validMoves)).toBe(
           true
         );
       });
@@ -67,7 +67,7 @@ describe("Pawn", () => {
           [0, 0, 0, 0, 0, 0, 0, 0],
         ];
 
-        expect(helper.validMoveValidator(expectedValidMoves, validMoves)).toBe(
+        expect(validMoveValidator(expectedValidMoves, validMoves)).toBe(
           true
         );
       });
@@ -91,7 +91,7 @@ describe("Pawn", () => {
           [0, 0, 0, 0, 0, 0, 0, 0],
         ];
 
-        expect(helper.validMoveValidator(expectedValidMoves, validMoves)).toBe(
+        expect(validMoveValidator(expectedValidMoves, validMoves)).toBe(
           true
         );
       });
@@ -114,7 +114,7 @@ describe("Pawn", () => {
           [0, 0, 0, 0, 0, 0, 0, 0],
         ];
 
-        expect(helper.validMoveValidator(expectedValidMoves, validMoves)).toBe(
+        expect(validMoveValidator(expectedValidMoves, validMoves)).toBe(
           true
         );
       });
@@ -137,7 +137,7 @@ describe("Pawn", () => {
           [0, 0, 0, 0, 0, 0, 0, 0],
         ];
 
-        expect(helper.validMoveValidator(expectedValidMoves, validMoves)).toBe(
+        expect(validMoveValidator(expectedValidMoves, validMoves)).toBe(
           true
         );
       });
@@ -160,7 +160,7 @@ describe("Pawn", () => {
           [0, 0, 0, 0, 0, 0, 0, 0],
         ];
 
-        expect(helper.validMoveValidator(expectedValidMoves, validMoves)).toBe(
+        expect(validMoveValidator(expectedValidMoves, validMoves)).toBe(
           true
         );
       });
@@ -181,7 +181,7 @@ describe("Pawn", () => {
           [0, 0, 0, 0, 0, 0, 0, 0],
         ];
 
-        expect(helper.validMoveValidator(expectedValidMoves, validMoves)).toBe(
+        expect(validMoveValidator(expectedValidMoves, validMoves)).toBe(
           true
         );
       });
@@ -205,7 +205,7 @@ describe("Pawn", () => {
           [0, 0, 0, 0, 0, 0, 0, 0],
         ];
 
-        expect(helper.validMoveValidator(expectedValidMoves, validMoves)).toBe(
+        expect(validMoveValidator(expectedValidMoves, validMoves)).toBe(
           true
         );
       });
@@ -229,7 +229,7 @@ describe("Pawn", () => {
           [0, 0, 0, 0, 0, 0, 0, 0],
         ];
 
-        expect(helper.validMoveValidator(expectedValidMoves, validMoves)).toBe(
+        expect(validMoveValidator(expectedValidMoves, validMoves)).toBe(
           true
         );
       });
@@ -252,7 +252,7 @@ describe("Pawn", () => {
           [0, 0, 0, 0, 0, 0, 0, 0],
         ];
 
-        expect(helper.validMoveValidator(expectedValidMoves, validMoves)).toBe(
+        expect(validMoveValidator(expectedValidMoves, validMoves)).toBe(
           true
         );
       });
@@ -275,7 +275,7 @@ describe("Pawn", () => {
           [0, 0, 0, 0, 0, 0, 0, 0],
         ];
 
-        expect(helper.validMoveValidator(expectedValidMoves, validMoves)).toBe(
+        expect(validMoveValidator(expectedValidMoves, validMoves)).toBe(
           true
         );
       });
