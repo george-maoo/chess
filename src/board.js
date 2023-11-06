@@ -21,18 +21,6 @@ class Board {
     this.undoStack = [];
   }
 
-  // displays the board on the terminal, will be removed when I set up a actual UI
-  printBoard() {
-    let board = "";
-    this.board.forEach((row) => {
-      row.forEach((pos) => {
-        board += `${pos === null ? " " : pos.stringRep()} `;
-      });
-      board += "\n";
-    });
-    console.log(board);
-  }
-
   // initialize board
   initializeBoard() {
     this.setLocation(new Rook("black", [0, 0], this), [0, 0]);
@@ -60,12 +48,10 @@ class Board {
     }
   }
 
-  // getter
   atLocation([row, col]) {
     return this.board[row][col];
   }
 
-  // setter
   setLocation(piece, [row, col]) {
     this.board[row][col] = piece;
   }
@@ -80,6 +66,20 @@ class Board {
     }
   }
 
+  // checks if piece is in bounds
+  isInBounds([row, col]) {
+    return (
+      row >= 0 &&
+      row < this.board.length &&
+      col >= 0 &&
+      col < this.board[0].length
+    );
+  }
+
+  isPosEmpty(posToCheck) {
+    return this.isInBounds(posToCheck) && this.atLocation(posToCheck) === null;
+  }
+
   // checks if move is included in listOfMoves
   includesMove(listOfMoves, endPos) {
     return listOfMoves.some(
@@ -89,12 +89,12 @@ class Board {
 
   // checks that a move doesnt put king in check
   moveIsSafe(piece, move) {
-    this.pushUndoStack(piece.location, move);
-
     const startPos = piece.location;
+    this.undoStackPush(startPos, move);
+
     this.setLocation(this.atLocation(startPos), move);
     this.setLocation(null, startPos);
-    this.atLocation(move).location = move;
+    piece.location = move;
 
     const safe = !this.isInCheck(piece.color);
     this.undoLastMove();
@@ -128,7 +128,7 @@ class Board {
     return true;
   }
 
-  pushUndoStack(startPos, endPos) {
+  undoStackPush(startPos, endPos) {
     this.undoStack.push({
       oldPos: startPos,
       newPos: endPos,
@@ -148,20 +148,6 @@ class Board {
       this.setLocation(lastMove.atNewPos, lastMove.newPos);
       lastMove.atNewPos.location = lastMove.newPos;
     }
-  }
-
-  // checks if piece is in bounds
-  isInBounds([row, col]) {
-    return (
-      row >= 0 &&
-      row < this.board.length &&
-      col >= 0 &&
-      col < this.board[0].length
-    );
-  }
-
-  isPosEmpty(posToCheck) {
-    return this.isInBounds(posToCheck) && this.atLocation(posToCheck) === null;
   }
 
   // check all enemy moves to see if the king gets hit by any of them
