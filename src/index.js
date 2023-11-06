@@ -1,10 +1,7 @@
 import Board from "./board.js";
-import Game from "./game.js";
 
 const board = new Board();
 board.initializeBoard();
-
-const game = new Game(board);
 
 const root = document.getElementById("root");
 
@@ -19,21 +16,47 @@ root.appendChild(canvas);
 const boardDisplay = document.createElement("div");
 boardDisplay.setAttribute("id", "chess-board");
 
-let count = 0;
+let pieceSelected = false;
 const x = [];
+let currentPlayer = "white";
+
+const swapPlayers = () => {
+  currentPlayer = currentPlayer === "white" ? "black" : "white";
+};
 
 const gamePlayFunc = (loc) => {
-  if (count === 0) {
-    if (board.atLocation(loc) === null) return;
-    count += 1;
+  if (!pieceSelected) {
+    const piece = board.atLocation(loc);
+    if (piece === null) return;
+
+    if (piece.color !== currentPlayer) {
+      console.log("It is not your turn");
+      return;
+    }
+
+    pieceSelected = true;
     x.push(loc);
+    highlightMoves(piece);
+    console.log("Piece selected");
   } else {
     const startPos = x.pop();
     if (board.movePiece(startPos, loc)) {
-      renderBoard();
+      console.log("Piece moved");
+      swapPlayers();
+      if (board.isInCheck(currentPlayer)) {
+        console.log(`${currentPlayer} is in check!`);
+      }
+    } else {
+      console.log("Invalid move");
     }
-    console.log(board.isInCheckmate("black"));
-    count -= 1;
+    renderBoard();
+    drawPieces();
+    if (gameOver()) {
+      swapPlayers();
+      console.log(`Checkmate! ${currentPlayer} wins!`);
+      endGame();
+    }
+    pieceSelected = false;
   }
 };
 
@@ -49,24 +72,48 @@ for (let i = 0; i < 8; i++) {
 }
 
 const renderBoard = () => {
+  console.log(`It is ${currentPlayer}'s turn`);
   for (let i = 0; i < 8; i++) {
     for (let j = 0; j < 8; j++) {
       ctx.fillStyle =
         (i + j) % 2 === 1 ? "rgb(184,139,74)" : "rgb(227,193,111)";
       ctx.fillRect(i * 80, j * 81, 80, 81);
+    }
+  }
+};
 
-      const loc = board.atLocation([i, j]);
-      if (loc !== null) {
+const drawPieces = () => {
+  for (let i = 0; i < 8; i++) {
+    for (let j = 0; j < 8; j++) {
+      const piece = board.atLocation([i, j]);
+      if (piece !== null) {
         const img = new Image();
         img.onload = () => {
           ctx.drawImage(img, 80 * j, 81 * i, 80, 81);
         };
-        img.src = `./../src/${loc.pieceImage()}.svg`;
+        img.src = `./../src/img/pieces/${piece.pieceImage()}`;
       }
     }
   }
 };
 
+const highlightMoves = (piece) => {
+  ctx.strokeStyle = "maroon";
+  ctx.lineWidth = 3;
+  for (const [row, col] of board.legalMoves(piece)) {
+    ctx.strokeRect(col * 80, row * 81, 78, 80);
+  }
+};
+
+const gameOver = () => {
+  return board.isInCheckmate(currentPlayer);
+};
+
+const endGame = () => {
+  document.getElementById("chess-board").textContent = "";
+};
+
 renderBoard();
+drawPieces();
 
 root.appendChild(boardDisplay);

@@ -1,6 +1,6 @@
 import Pawn from "./../../pieces/pawn.js";
 import Board from "./../../board.js";
-import { possibleMovesValidator } from "./helper.js";;
+import { possibleMovesValidator } from "./helper.js";
 
 describe("Pawn", () => {
   // in expectedPossibleMoves, a 1 represents a valid move, a 0 represents invalid move
@@ -22,9 +22,9 @@ describe("Pawn", () => {
           [0, 0, 0, 0, 0, 0, 0, 0],
         ];
 
-        expect(possibleMovesValidator(expectedPossibleMoves, possibleMoves)).toBe(
-          true
-        );
+        expect(
+          possibleMovesValidator(expectedPossibleMoves, possibleMoves)
+        ).toBe(true);
       });
 
       test("Can move 1 row up when not at starting position", () => {
@@ -43,9 +43,9 @@ describe("Pawn", () => {
           [0, 0, 0, 0, 0, 0, 0, 0],
         ];
 
-        expect(possibleMovesValidator(expectedPossibleMoves, possibleMoves)).toBe(
-          true
-        );
+        expect(
+          possibleMovesValidator(expectedPossibleMoves, possibleMoves)
+        ).toBe(true);
       });
 
       test("Can capture pieces diagonally", () => {
@@ -67,9 +67,9 @@ describe("Pawn", () => {
           [0, 0, 0, 0, 0, 0, 0, 0],
         ];
 
-        expect(possibleMovesValidator(expectedPossibleMoves, possibleMoves)).toBe(
-          true
-        );
+        expect(
+          possibleMovesValidator(expectedPossibleMoves, possibleMoves)
+        ).toBe(true);
       });
 
       test("Can capture pieces diagonally and move 2 rows up when at starting position", () => {
@@ -91,9 +91,9 @@ describe("Pawn", () => {
           [0, 0, 0, 0, 0, 0, 0, 0],
         ];
 
-        expect(possibleMovesValidator(expectedPossibleMoves, possibleMoves)).toBe(
-          true
-        );
+        expect(
+          possibleMovesValidator(expectedPossibleMoves, possibleMoves)
+        ).toBe(true);
       });
 
       test("Cant move over pieces", () => {
@@ -114,9 +114,9 @@ describe("Pawn", () => {
           [0, 0, 0, 0, 0, 0, 0, 0],
         ];
 
-        expect(possibleMovesValidator(expectedPossibleMoves, possibleMoves)).toBe(
-          true
-        );
+        expect(
+          possibleMovesValidator(expectedPossibleMoves, possibleMoves)
+        ).toBe(true);
       });
 
       test("Cant move 2 steps if there is a piece at that position", () => {
@@ -137,9 +137,9 @@ describe("Pawn", () => {
           [0, 0, 0, 0, 0, 0, 0, 0],
         ];
 
-        expect(possibleMovesValidator(expectedPossibleMoves, possibleMoves)).toBe(
-          true
-        );
+        expect(
+          possibleMovesValidator(expectedPossibleMoves, possibleMoves)
+        ).toBe(true);
       });
     });
 
@@ -160,9 +160,9 @@ describe("Pawn", () => {
           [0, 0, 0, 0, 0, 0, 0, 0],
         ];
 
-        expect(possibleMovesValidator(expectedPossibleMoves, possibleMoves)).toBe(
-          true
-        );
+        expect(
+          possibleMovesValidator(expectedPossibleMoves, possibleMoves)
+        ).toBe(true);
       });
 
       test("Can move 1 row down when not at starting position", () => {
@@ -181,9 +181,9 @@ describe("Pawn", () => {
           [0, 0, 0, 0, 0, 0, 0, 0],
         ];
 
-        expect(possibleMovesValidator(expectedPossibleMoves, possibleMoves)).toBe(
-          true
-        );
+        expect(
+          possibleMovesValidator(expectedPossibleMoves, possibleMoves)
+        ).toBe(true);
       });
 
       test("Can capture pieces diagonally", () => {
@@ -205,9 +205,9 @@ describe("Pawn", () => {
           [0, 0, 0, 0, 0, 0, 0, 0],
         ];
 
-        expect(possibleMovesValidator(expectedPossibleMoves, possibleMoves)).toBe(
-          true
-        );
+        expect(
+          possibleMovesValidator(expectedPossibleMoves, possibleMoves)
+        ).toBe(true);
       });
 
       test("Can capture pieces diagonally and move 2 rows up when at starting position", () => {
@@ -229,9 +229,9 @@ describe("Pawn", () => {
           [0, 0, 0, 0, 0, 0, 0, 0],
         ];
 
-        expect(possibleMovesValidator(expectedPossibleMoves, possibleMoves)).toBe(
-          true
-        );
+        expect(
+          possibleMovesValidator(expectedPossibleMoves, possibleMoves)
+        ).toBe(true);
       });
 
       test("Cant move over pieces", () => {
@@ -252,9 +252,9 @@ describe("Pawn", () => {
           [0, 0, 0, 0, 0, 0, 0, 0],
         ];
 
-        expect(possibleMovesValidator(expectedPossibleMoves, possibleMoves)).toBe(
-          true
-        );
+        expect(
+          possibleMovesValidator(expectedPossibleMoves, possibleMoves)
+        ).toBe(true);
       });
 
       test("Cant move 2 steps if there is a piece at that position", () => {
@@ -275,9 +275,9 @@ describe("Pawn", () => {
           [0, 0, 0, 0, 0, 0, 0, 0],
         ];
 
-        expect(possibleMovesValidator(expectedPossibleMoves, possibleMoves)).toBe(
-          true
-        );
+        expect(
+          possibleMovesValidator(expectedPossibleMoves, possibleMoves)
+        ).toBe(true);
       });
     });
   });
