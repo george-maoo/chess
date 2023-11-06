@@ -18,7 +18,7 @@ class Board {
       [null, null, null, null, null, null, null, null],
       [null, null, null, null, null, null, null, null],
     ];
-    this.undoStack = [];
+    this.previousMoves = [];
   }
 
   // initialize board
@@ -129,7 +129,7 @@ class Board {
   }
 
   undoStackPush(startPos, endPos) {
-    this.undoStack.push({
+    this.previousMoves.push({
       oldPos: startPos,
       newPos: endPos,
       atOldPos: this.atLocation(startPos),
@@ -138,7 +138,7 @@ class Board {
   }
 
   undoLastMove() {
-    const lastMove = this.undoStack.pop();
+    const lastMove = this.previousMoves.pop();
     this.setLocation(lastMove.atOldPos, lastMove.oldPos);
     lastMove.atOldPos.location = lastMove.oldPos;
 

@@ -1,7 +1,6 @@
 import Board from "./board.js";
-
-const board = new Board();
-board.initializeBoard();
+import BoardDisplay from "./pieceImages.js";
+import King from "./pieces/king.js";
 
 const root = document.getElementById("root");
 
@@ -13,95 +12,54 @@ canvas.setAttribute("width", 640);
 const ctx = canvas.getContext("2d");
 root.appendChild(canvas);
 
-const boardDisplay = document.createElement("div");
-boardDisplay.setAttribute("id", "chess-board");
+const board = new Board();
+board.initializeBoard();
 
-let pieceSelected = false;
-const x = [];
-let currentPlayer = "white";
+const pieceImages = new BoardDisplay();
 
-const swapPlayers = () => {
-  currentPlayer = currentPlayer === "white" ? "black" : "white";
-};
+const chessBoard = document.createElement("div");
+chessBoard.setAttribute("id", "chess-board");
 
-const gamePlayFunc = (loc) => {
-  if (!pieceSelected) {
-    const piece = board.atLocation(loc);
-    if (piece === null) return;
-
-    if (piece.color !== currentPlayer) {
-      console.log("It is not your turn");
-      return;
-    }
-
-    pieceSelected = true;
-    x.push(loc);
-    highlightMoves(piece);
-    console.log("Piece selected");
-  } else {
-    const startPos = x.pop();
-    if (board.movePiece(startPos, loc)) {
-      console.log("Piece moved");
-      swapPlayers();
-      if (board.isInCheck(currentPlayer)) {
-        console.log(`${currentPlayer} is in check!`);
-      }
-    } else {
-      console.log("Invalid move");
-    }
-    renderBoard();
-    drawPieces();
-    if (gameOver()) {
-      swapPlayers();
-      console.log(`Checkmate! ${currentPlayer} wins!`);
-      endGame();
-    }
-    pieceSelected = false;
-  }
-};
-
-for (let i = 0; i < 8; i++) {
-  for (let j = 0; j < 8; j++) {
-    const button = document.createElement("button");
-
-    button.setAttribute("id", "board-tile");
-    button.pos = [i, j];
-    button.addEventListener("click", () => gamePlayFunc(button.pos));
-    boardDisplay.appendChild(button);
-  }
-}
-
-const renderBoard = () => {
-  console.log(`It is ${currentPlayer}'s turn`);
+const drawBoard = () => {
   for (let i = 0; i < 8; i++) {
     for (let j = 0; j < 8; j++) {
       ctx.fillStyle =
         (i + j) % 2 === 1 ? "rgb(184,139,74)" : "rgb(227,193,111)";
-      ctx.fillRect(i * 80, j * 81, 80, 81);
-    }
-  }
-};
+      ctx.fillRect(i * 80, j * 80, 80, 80);
 
-const drawPieces = () => {
-  for (let i = 0; i < 8; i++) {
-    for (let j = 0; j < 8; j++) {
-      const piece = board.atLocation([i, j]);
-      if (piece !== null) {
-        const img = new Image();
-        img.onload = () => {
-          ctx.drawImage(img, 80 * j, 81 * i, 80, 81);
-        };
-        img.src = `./../src/img/pieces/${piece.pieceImage()}`;
+      const piece = board.atLocation([j, i]);
+      if (piece) {
+        drawPiece(piece);
       }
     }
   }
 };
 
+const drawPiece = (piece, bgColor = null) => {
+  const [row, col] = piece.location;
+  ctx.beginPath();
+  if (bgColor) {
+    ctx.fillStyle = bgColor;
+    ctx.fillRect(col * 80, row * 80, 80, 80);
+    ctx.drawImage(pieceImages.getPieceImage(piece), col * 80, row * 80, 80, 80);
+  }
+  ctx.drawImage(pieceImages.getPieceImage(piece), col * 80, row * 80, 80, 80);
+};
+
 const highlightMoves = (piece) => {
-  ctx.strokeStyle = "maroon";
-  ctx.lineWidth = 3;
   for (const [row, col] of board.legalMoves(piece)) {
-    ctx.strokeRect(col * 80, row * 81, 78, 80);
+    ctx.beginPath();
+    piece = board.atLocation([row, col]);
+
+    if (piece) {
+      drawPiece(piece, "red");
+    } else {
+      ctx.fillStyle = "rgb(66, 66, 67)";
+      ctx.save();
+      ctx.arc(col * 80 + 40, row * 80 + 40, 13, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
   }
 };
 
@@ -109,11 +67,23 @@ const gameOver = () => {
   return board.isInCheckmate(currentPlayer);
 };
 
+const kingInCheck = () => {
+  const king = board
+    .getPieces(currentPlayer)
+    .find((piece) => piece instanceof King);
+  drawPiece(king, "red");
+};
+
 const endGame = () => {
+  kingInCheck();
+
+  swapPlayers();
   document.getElementById("chess-board").textContent = "";
 };
 
-renderBoard();
-drawPieces();
+setUpBoard();
+setTimeout(() => {
+  drawBoard();
+}, 10);
 
-root.appendChild(boardDisplay);
+root.appendChild(chessBoard);

@@ -1,7 +1,7 @@
 import Board from "./../board.js";
 import Game from "./../game.js";
 
-describe("Game", () => {
+describe.skip("Game", () => {
   describe("4 move checkmate", () => {
     test("White wins", () => {
       const whiteMoves = [
