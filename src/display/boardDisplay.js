@@ -43,9 +43,6 @@ class BoardDisplay {
   }
 
   drawPiece(piece, bgColor = null) {
-    if (piece.constructor.name === "King" && bgColor === "red") {
-      console.log("ALSO RAN");
-    }
     const { tileSize } = this;
     const [row, col] = piece.location;
     const pieceImage = this.pieceImages.getPieceImage(piece);
@@ -92,7 +89,6 @@ class BoardDisplay {
   }
 
   highlightKing(color) {
-    console.log("RAN");
     const king = this.board
       .getPieces(color)
       .find((piece) => piece.constructor.name === "King");

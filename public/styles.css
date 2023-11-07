@@ -9,13 +9,14 @@ body {
   left: 0;
   right: 0;
   margin: auto;
-  height: 648px;
+  height: 640px;
   width: 640px;
+  line-height: 0.8;
 }
 
 #board-tile {
   z-index: 10;
-  height: 78px;
+  height: 80px;
   width: 80px;
   border: none;
   background: transparent;
@@ -44,13 +45,13 @@ body {
   left: 0;
   right: 0;
   white-space: pre-line;
-  padding-bottom: calc((100vh - 660px) - 60px);
+  padding-bottom: calc((100vh - 728px));
   line-height: 1.5;
   text-transform: capitalize;
 }
 
-/*@media (max-height: 728px) {*/
-/*  #message-display {*/
-/*    display: none;*/
-/*  }*/
-/*}*/
+@media (max-height: 728px) {
+  #message-display {
+    display: none;
+  }
+}
