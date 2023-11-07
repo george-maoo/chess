@@ -1,5 +1,6 @@
 import Piece from "./piece.js";
-import { singleMove } from "./utils/movetype.js";
+
+import {singleMove} from "./movetypes/singleMove.js";
 
 class Knight extends Piece {
   pieceSymbol() {

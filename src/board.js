@@ -133,12 +133,12 @@ class Board {
     const [startRow, startCol] = startPos;
     const [endRow, endCol] = endPos;
 
+    // rrefactorrefactorrefactorrefactorrefactorrefactorrefactorefactor TODO
     if (
       atStartPos.constructor.name === "Pawn"
       // [3, 4] => [2, 3] AND [3, 4] => [2, 5]
     ) {
       const diagMove =
-        // rrefactorrefactorrefactorrefactorrefactorrefactorrefactorefactor TODO
         this.coordsMatch(endPos, [
           startRow + atStartPos.forwardDirection(),
           startCol + 1,

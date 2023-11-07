@@ -1,6 +1,6 @@
 import Piece from "./piece.js";
-import { pawnMove } from "./utils/movetype.js";
 import Queen from "./queen.js";
+import {pawnMove} from "./movetypes/pawnMove.js";
 
 class Pawn extends Piece {
   pieceSymbol() {
