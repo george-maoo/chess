@@ -8,7 +8,7 @@ class Game {
     this.messageDisplay = messageDisplay;
   }
 
-  startGame() {
+  async startGame() {
     const chessBoard = document.createElement("div");
     chessBoard.setAttribute("id", "chess-board");
 
@@ -24,14 +24,11 @@ class Game {
     }
 
     this.root.prepend(chessBoard);
-    setTimeout(
-      () =>
-        this.boardDisplay.drawBoard(
-          this.board,
-          this.currentPlayer,
-          this.selectedPiece
-        ),
-      100
+    await this.boardDisplay.pieceImages.waitForImagesLoad();
+    this.boardDisplay.drawBoard(
+      this.board,
+      this.currentPlayer,
+      this.selectedPiece
     );
 
     this.messageDisplay.setMessage(`It is now ${this.currentPlayer}'s turn`);

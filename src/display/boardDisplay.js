@@ -4,7 +4,7 @@ class BoardDisplay {
   constructor(root, board) {
     const canvas = document.createElement("canvas");
     canvas.setAttribute("id", "my-canvas");
-    canvas.setAttribute("height", 648);
+    canvas.setAttribute("height", 640);
     canvas.setAttribute("width", 640);
     root.appendChild(canvas);
 

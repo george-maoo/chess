@@ -38,6 +38,27 @@ class PieceImages {
     const pieceType = piece.constructor.name;
     return this.pieceImages[piece.color][pieceType];
   }
+
+  async waitForImagesLoad() {
+    const imagesPromiseArray = [];
+
+    for (const color in this.pieceImages) {
+      const pieces = this.pieceImages[color];
+
+      for (const pieceName in pieces) {
+        const image = pieces[pieceName];
+
+        const myPromise = new Promise((resolve, reject) => {
+          image.onload = () => resolve(image);
+          image.onerror = reject;
+        });
+
+        imagesPromiseArray.push(myPromise);
+      }
+    }
+
+    await Promise.all(imagesPromiseArray);
+  }
 }
 
 export default PieceImages;
