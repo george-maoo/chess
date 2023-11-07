@@ -24,7 +24,10 @@ class Game {
     }
 
     this.root.prepend(chessBoard);
+
+    this.messageDisplay.setMessage("Loading...");
     await this.boardDisplay.pieceImages.waitForImagesLoad();
+
     this.boardDisplay.drawBoard(
       this.board,
       this.currentPlayer,

@@ -1,5 +1,6 @@
 import Piece from "./piece.js";
 import { pawnMove } from "./utils/movetype.js";
+import Queen from "./queen.js";
 
 class Pawn extends Piece {
   pieceSymbol() {
@@ -21,6 +22,24 @@ class Pawn extends Piece {
       (this.color === "white" && row === 6) ||
       (this.color === "black" && row === 1)
     );
+  }
+
+  isAtEnd() {
+    const row = this.location[0];
+    return (
+      (this.color === "white" && row === 0) ||
+      (this.color === "black" && row === 7)
+    );
+  }
+
+  promote() {
+    const queen = new Queen(this.color, this.location, this.board);
+    this.board.setLocation(queen, this.location);
+  }
+
+  setPieceLoc(loc) {
+    this.location = loc;
+    if (this.isAtEnd()) this.promote();
   }
 
   possibleMoves() {

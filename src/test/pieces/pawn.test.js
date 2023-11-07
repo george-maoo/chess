@@ -281,4 +281,28 @@ describe("Pawn", () => {
       });
     });
   });
+
+  describe("Pawn promotion", () => {
+    describe("White pawn", () => {
+      test("Pawn promotes to queen when it reaches end of board", () => {
+        const board = new Board();
+
+        board.setLocation(new Pawn("white", [1, 0], board), [1, 0]);
+        board.movePiece([1, 0], [0, 0]);
+
+        expect(board.atLocation([0, 0]).constructor.name).toBe("Queen");
+      });
+    });
+
+    describe("Black pawn", () => {
+      test("Pawn promotes to queen when it reaches end of board", () => {
+        const board = new Board();
+
+        board.setLocation(new Pawn("black", [6, 0], board), [6, 0]);
+        board.movePiece([6, 0], [7, 0]);
+
+        expect(board.atLocation([7, 0]).constructor.name).toBe("Queen");
+      });
+    });
+  });
 });

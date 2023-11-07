@@ -112,9 +112,7 @@ class Board {
     const piece = this.atLocation(startPos);
     if (!piece) return false;
 
-    if (!this.includesMove(this.legalMoves(piece), endPos)) return false;
-
-    return true;
+    return this.includesMove(this.legalMoves(piece), endPos);
   }
 
   // returns true if piece is moved, returns false if end position is invalid
@@ -124,7 +122,7 @@ class Board {
     this.setLocation(this.atLocation(startPos), endPos);
     this.setLocation(null, startPos);
 
-    this.atLocation(endPos).location = endPos;
+    this.atLocation(endPos).setPieceLoc(endPos);
     return true;
   }
 

@@ -4,6 +4,10 @@ class Piece {
     this.location = location;
     this.board = board;
   }
+
+  setPieceLoc(loc) {
+    this.location = loc;
+  }
 }
 
-export default Piece
+export default Piece;
