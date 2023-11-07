@@ -32,7 +32,7 @@ class Pawn extends Piece {
     );
   }
 
-  promote() {
+  promote(pieceChoice) {
     if (pieceChoice === "queen") {
       const queen = new Queen(
         this.color,

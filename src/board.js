@@ -137,8 +137,6 @@ class Board {
     };
 
     this.previousMoves.push(move);
-    console.log(move);
-    console.log(this.previousMoves);
   }
 
   undoLastMove() {

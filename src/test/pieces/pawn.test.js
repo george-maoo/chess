@@ -1,6 +1,7 @@
 import Pawn from "./../../pieces/pawn.js";
 import Board from "./../../board.js";
 import { possibleMovesValidator, printBoard } from "./helper.js";
+import Queen from "../../pieces/queen.js";
 
 describe("Pawn", () => {
   // in expectedPossibleMoves, a 1 represents a valid move, a 0 represents invalid move
@@ -330,6 +331,77 @@ describe("Pawn", () => {
 
         expect(
           possibleMovesValidator(expectedPossibleMoves, possibleMoves, true)
+        ).toBe(true);
+      });
+
+      test("En passant works on the right side also", () => {
+        const board = new Board();
+
+        board.setLocation(new Pawn("white", [3, 4], board), [3, 4]);
+        board.setLocation(new Pawn("black", [1, 5], board), [1, 5]);
+
+        board.movePiece([1, 5], [3, 5]);
+
+        const possibleMoves = board.atLocation([3, 4]).possibleMoves();
+        const expectedPossibleMoves = [
+          [0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 1, 1, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0],
+        ];
+
+        expect(
+          possibleMovesValidator(expectedPossibleMoves, possibleMoves, true)
+        ).toBe(true);
+      });
+
+      test("En passant move disappears if not taken immediately", () => {
+        const board = new Board();
+
+        board.setLocation(new Pawn("white", [3, 4], board), [3, 4]);
+        board.setLocation(new Pawn("black", [1, 3], board), [1, 3]);
+        board.setLocation(new Queen("black", [7, 7], board), [7, 7]);
+        board.setLocation(new Queen("white", [0, 0], board), [0, 0]);
+
+        board.movePiece([1, 3], [3, 3]);
+
+        // en passant is available now
+        const expectedPossibleMoves = [
+          [0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 1, 1, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0],
+        ];
+
+        expect(
+          possibleMovesValidator(
+            expectedPossibleMoves,
+            board.atLocation([3, 4]).possibleMoves(),
+            true
+          )
+        ).toBe(true);
+
+        // make other moves
+        board.movePiece([7, 7], [7, 6]);
+        board.movePiece([0, 0], [0, 1]);
+
+        // en passant was not immediately taken, it shouldnt be allowed anymore
+        expectedPossibleMoves[2][3] = 0;
+
+        expect(
+          possibleMovesValidator(
+            expectedPossibleMoves,
+            board.atLocation([3, 4]).possibleMoves(),
+            true
+          )
         ).toBe(true);
       });
     });
