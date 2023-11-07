@@ -90,7 +90,7 @@ class Board {
   // checks that a move doesnt put king in check
   moveIsSafe(piece, move) {
     const startPos = piece.location;
-    this.undoStackPush(startPos, move);
+    this.storeLastMove(startPos, move);
 
     this.setLocation(this.atLocation(startPos), move);
     this.setLocation(null, startPos);
@@ -119,6 +119,8 @@ class Board {
   movePiece(startPos, endPos) {
     if (!this.moveIsLegal(startPos, endPos)) return false;
 
+    this.storeLastMove(startPos, endPos);
+
     this.setLocation(this.atLocation(startPos), endPos);
     this.setLocation(null, startPos);
 
@@ -126,13 +128,17 @@ class Board {
     return true;
   }
 
-  undoStackPush(startPos, endPos) {
-    this.previousMoves.push({
+  storeLastMove(startPos, endPos) {
+    const move = {
       oldPos: startPos,
       newPos: endPos,
       atOldPos: this.atLocation(startPos),
       atNewPos: this.atLocation(endPos),
-    });
+    };
+
+    this.previousMoves.push(move);
+    console.log(move);
+    console.log(this.previousMoves);
   }
 
   undoLastMove() {
@@ -151,6 +157,10 @@ class Board {
   // check all enemy moves to see if the king gets hit by any of them
   isInCheck(color) {
     const king = this.getPieces(color).find((piece) => piece instanceof King);
+    if (!king) {
+      return false;
+    }
+
     const enemyColor = color === "black" ? "white" : "black";
 
     for (const enemyPiece of this.getPieces(enemyColor)) {

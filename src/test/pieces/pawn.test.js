@@ -1,6 +1,6 @@
 import Pawn from "./../../pieces/pawn.js";
 import Board from "./../../board.js";
-import { possibleMovesValidator } from "./helper.js";
+import { possibleMovesValidator, printBoard } from "./helper.js";
 
 describe("Pawn", () => {
   // in expectedPossibleMoves, a 1 represents a valid move, a 0 represents invalid move
@@ -304,5 +304,36 @@ describe("Pawn", () => {
         expect(board.atLocation([7, 0]).constructor.name).toBe("Queen");
       });
     });
+  });
+
+  describe.only("En passant", () => {
+    describe("White pawn", () => {
+      test("En passant is included in list of possible moves when the conditions are met", () => {
+        const board = new Board();
+
+        board.setLocation(new Pawn("white", [3, 4], board), [3, 4]);
+        board.setLocation(new Pawn("black", [1, 3], board), [1, 3]);
+
+        board.movePiece([1, 3], [3, 3]);
+
+        const possibleMoves = board.atLocation([3, 4]).possibleMoves();
+        const expectedPossibleMoves = [
+          [0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 1, 1, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0],
+        ];
+
+        expect(
+          possibleMovesValidator(expectedPossibleMoves, possibleMoves, true)
+        ).toBe(true);
+      });
+    });
+
+    describe("Black pawn", () => {});
   });
 });

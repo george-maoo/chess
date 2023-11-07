@@ -33,13 +33,22 @@ class Pawn extends Piece {
   }
 
   promote() {
-    const queen = new Queen(this.color, this.location, this.board);
-    this.board.setLocation(queen, this.location);
+    if (pieceChoice === "queen") {
+      const queen = new Queen(
+        this.color,
+        this.location,
+        this.board,
+        this.moveCount
+      );
+
+      this.board.setLocation(queen, this.location);
+    }
   }
 
   setPieceLoc(loc) {
     this.location = loc;
-    if (this.isAtEnd()) this.promote();
+    this.moveCount += 1;
+    if (this.isAtEnd()) this.promote("queen");
   }
 
   possibleMoves() {

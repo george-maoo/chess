@@ -45,7 +45,7 @@ body {
   left: 0;
   right: 0;
   white-space: pre-line;
-  padding-bottom: calc((100vh - 728px));
+  padding-bottom: calc((100vh - 768px));
   line-height: 1.5;
   text-transform: capitalize;
 }
