@@ -56,6 +56,14 @@ class Board {
     this.board[row][col] = piece;
   }
 
+  swapLocations(loc1, loc2) {
+    const atLoc1 = this.atLocation(loc1);
+    const atLoc2 = this.atLocation(loc2);
+
+    this.setLocation(atLoc1, loc2);
+    this.setLocation(atLoc2, loc1);
+  }
+
   // gets all pieces of a specified color, or all pieces if no color is specified
   getPieces(color = "all") {
     const pieces = this.board.flat(1);
@@ -119,6 +127,34 @@ class Board {
   movePiece(startPos, endPos) {
     if (!this.moveIsLegal(startPos, endPos)) return false;
 
+    const atStartPos = this.atLocation(startPos);
+    const atEndPos = this.atLocation(endPos);
+
+    const [startRow, startCol] = startPos;
+    const [endRow, endCol] = endPos;
+
+    if (
+      atStartPos.constructor.name === "Pawn"
+      // [3, 4] => [2, 3] AND [3, 4] => [2, 5]
+    ) {
+      const diagMove =
+        // rrefactorrefactorrefactorrefactorrefactorrefactorrefactorefactor TODO
+        this.coordsMatch(endPos, [
+          startRow + atStartPos.forwardDirection(),
+          startCol + 1,
+        ]) ||
+        this.coordsMatch(endPos, [
+          startRow + atStartPos.forwardDirection(),
+          startCol - 1,
+        ]);
+      if (diagMove && atEndPos === null) {
+        this.swapLocations(endPos, [
+          endRow - atStartPos.forwardDirection(),
+          endCol,
+        ]);
+      }
+    }
+
     this.storeLastMove(startPos, endPos);
 
     this.setLocation(this.atLocation(startPos), endPos);
@@ -128,12 +164,13 @@ class Board {
     return true;
   }
 
-  storeLastMove(startPos, endPos) {
+  storeLastMove(startPos, endPos, moveType = null) {
     const move = {
       oldPos: startPos,
       newPos: endPos,
       atOldPos: this.atLocation(startPos),
       atNewPos: this.atLocation(endPos),
+      moveType: moveType,
     };
 
     this.previousMoves.push(move);
@@ -180,6 +217,10 @@ class Board {
     }
 
     return true;
+  }
+
+  coordsMatch([row1, col1], [row2, col2]) {
+    return row1 === row2 && col1 === col2;
   }
 }
 

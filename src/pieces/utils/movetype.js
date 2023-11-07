@@ -123,6 +123,7 @@ const pawnMove = (piece) => {
   there is no other legal move.
    */
 
+  // rrefactorrefactorrefactorrefactorefactorrefactor TODO
   // how many conditions are there for this move...
   if (
     (piece.color === "white" && row === 3) ||
@@ -141,8 +142,8 @@ const pawnMove = (piece) => {
         board.atLocation(leftSide).moveCount === 1 &&
         board.atLocation(leftDiag) === null
       ) {
-        const y =
-          board.previousMoves[board.previousMoves.length - 1].atOldPos.location;
+        const last = board.previousMoves.length - 1;
+        const y = board.previousMoves[last].atOldPos.location;
         if (y[0] === leftSide[0] && y[1] === leftSide[1]) {
           moves.push(leftDiag);
         }

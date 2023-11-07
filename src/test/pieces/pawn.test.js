@@ -307,7 +307,7 @@ describe("Pawn", () => {
     });
   });
 
-  describe.only("En passant", () => {
+  describe("En passant", () => {
     describe("White pawn", () => {
       test("En passant is included in list of possible moves when the conditions are met", () => {
         const board = new Board();
@@ -355,7 +355,7 @@ describe("Pawn", () => {
         ];
 
         expect(
-          possibleMovesValidator(expectedPossibleMoves, possibleMoves, true)
+          possibleMovesValidator(expectedPossibleMoves, possibleMoves)
         ).toBe(true);
       });
 
@@ -384,8 +384,7 @@ describe("Pawn", () => {
         expect(
           possibleMovesValidator(
             expectedPossibleMoves,
-            board.atLocation([3, 4]).possibleMoves(),
-            true
+            board.atLocation([3, 4]).possibleMoves()
           )
         ).toBe(true);
 
@@ -399,13 +398,46 @@ describe("Pawn", () => {
         expect(
           possibleMovesValidator(
             expectedPossibleMoves,
-            board.atLocation([3, 4]).possibleMoves(),
-            true
+            board.atLocation([3, 4]).possibleMoves()
           )
         ).toBe(true);
+      });
+
+      test("left en passant move works and captures enemy pawn", () => {
+        const board = new Board();
+
+        const whitePawn = new Pawn("white", [3, 4], board);
+        const blackPawn = new Pawn("black", [1, 3], board);
+
+        board.setLocation(whitePawn, [3, 4]);
+        board.setLocation(blackPawn, [1, 3]);
+
+        board.movePiece([1, 3], [3, 3]);
+        board.movePiece([3, 4], [2, 3]);
+
+        expect(board.atLocation([2, 3])).toEqual(whitePawn);
+        expect(board.atLocation([3, 3])).toBe(null);
+      });
+
+      test("right en passant move works and captures enemy pawn", () => {
+        const board = new Board();
+
+        const whitePawn = new Pawn("white", [3, 4], board);
+        const blackPawn = new Pawn("black", [1, 5], board);
+
+        board.setLocation(whitePawn, [3, 4]);
+        board.setLocation(blackPawn, [1, 5]);
+
+        board.movePiece([1, 5], [3, 5]);
+        board.movePiece([3, 4], [2, 5]);
+
+        expect(board.atLocation([2, 5])).toEqual(whitePawn);
+        expect(board.atLocation([3, 5])).toBe(null);
       });
     });
 
     describe("Black pawn", () => {});
+
+    // make sure to write a test for this too: https://chess.stackexchange.com/questions/18396/when-capturing-en-passant-is-a-position-possible-such-that-there-is-a-pin-over#:~:text=Really%20interesting%20question.%20I%20think%20the%20following%20shows%20that%20such%20a%20situation%20is%20sort%20of%20possible%2C%20depending%20on%20how%20you%20define%20the%20pin.
   });
 });
