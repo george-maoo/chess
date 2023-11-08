@@ -1,6 +1,6 @@
 import Piece from "./piece.js";
 import Queen from "./queen.js";
-import {pawnMove} from "./movetypes/pawnMove.js";
+import { pawnMove } from "./movetypes/pawnMove.js";
 
 class Pawn extends Piece {
   pieceSymbol() {
@@ -49,6 +49,26 @@ class Pawn extends Piece {
     this.location = loc;
     this.moveCount += 1;
     if (this.isAtEnd()) this.promote("queen");
+  }
+
+  inEnPassantPos() {
+    return (
+      (this.color === "white" && this.currentRow() === 3) ||
+      (this.color === "black" && this.currentRow() === 4)
+    );
+  }
+
+  doingEnPassant(endPos) {
+    const [row, col] = this.location;
+
+    const leftDiag = [row + this.forwardDirection(), col - 1];
+    const rightDiag = [row + this.forwardDirection(), col + 1];
+
+    return (
+      (this.board.isSameLocation(endPos, leftDiag) ||
+        this.board.isSameLocation(endPos, rightDiag)) &&
+      this.board.atLocation(endPos) === null
+    );
   }
 
   possibleMoves() {

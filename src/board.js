@@ -84,8 +84,12 @@ class Board {
     );
   }
 
-  isPosEmpty(posToCheck) {
+  posIsEmpty(posToCheck) {
     return this.isInBounds(posToCheck) && this.atLocation(posToCheck) === null;
+  }
+
+  posNotEmpty(posToCheck) {
+    return this.isInBounds(posToCheck) && this.atLocation(posToCheck) !== null;
   }
 
   // checks if move is included in listOfMoves
@@ -127,32 +131,11 @@ class Board {
   movePiece(startPos, endPos) {
     if (!this.moveIsLegal(startPos, endPos)) return false;
 
-    const atStartPos = this.atLocation(startPos);
-    const atEndPos = this.atLocation(endPos);
+    const piece = this.atLocation(startPos);
 
-    const [startRow, startCol] = startPos;
-    const [endRow, endCol] = endPos;
-
-    // rrefactorrefactorrefactorrefactorrefactorrefactorrefactorefactor TODO
-    if (
-      atStartPos.constructor.name === "Pawn"
-      // [3, 4] => [2, 3] AND [3, 4] => [2, 5]
-    ) {
-      const diagMove =
-        this.coordsMatch(endPos, [
-          startRow + atStartPos.forwardDirection(),
-          startCol + 1,
-        ]) ||
-        this.coordsMatch(endPos, [
-          startRow + atStartPos.forwardDirection(),
-          startCol - 1,
-        ]);
-      if (diagMove && atEndPos === null) {
-        this.swapLocations(endPos, [
-          endRow - atStartPos.forwardDirection(),
-          endCol,
-        ]);
-      }
+    if (piece.constructor.name === "Pawn" && piece.doingEnPassant(endPos)) {
+      const [endRow, endCol] = endPos;
+      this.swapLocations(endPos, [endRow - piece.forwardDirection(), endCol]);
     }
 
     this.storeLastMove(startPos, endPos);
@@ -189,6 +172,10 @@ class Board {
     }
   }
 
+  getPreviousMove() {
+    return this.previousMoves[this.previousMoves.length - 1];
+  }
+
   // check all enemy moves to see if the king gets hit by any of them
   isInCheck(color) {
     const king = this.getPieces(color).find((piece) => piece instanceof King);
@@ -219,7 +206,7 @@ class Board {
     return true;
   }
 
-  coordsMatch([row1, col1], [row2, col2]) {
+  isSameLocation([row1, col1], [row2, col2]) {
     return row1 === row2 && col1 === col2;
   }
 }

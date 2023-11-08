@@ -15,13 +15,13 @@ const pawnMove = (piece) => {
   const oneStep = [row + forwardDir, col];
   const twoStep = [row + forwardDir * 2, col];
 
-  if (board.isPosEmpty(oneStep)) {
+  if (board.posIsEmpty(oneStep)) {
     moves.push(oneStep);
   }
 
   if (
-    board.isPosEmpty(oneStep) &&
-    board.isPosEmpty(twoStep) &&
+    board.posIsEmpty(oneStep) &&
+    board.posIsEmpty(twoStep) &&
     piece.isAtStart()
   ) {
     moves.push(twoStep);
@@ -57,51 +57,29 @@ const pawnMove = (piece) => {
   there is no other legal move.
    */
 
-  // rrefactorrefactorrefactorrefactorefactorrefactor TODO
-  // how many conditions are there for this move...
-  if (
-    (piece.color === "white" && row === 3) ||
-    (piece.color === "black" && row === 4)
-  ) {
-    const leftSide = [row, col - 1];
-    const rightSide = [row, col + 1];
+  const leftSide = [row, col - 1];
+  const rightSide = [row, col + 1];
+  const pawnSideLocs = [leftSide, rightSide];
 
-    if (
-      board.isInBounds(leftSide) &&
-      board.atLocation(leftSide) !== null &&
-      board.atLocation(leftSide).color !== piece.color &&
-      board.atLocation(leftSide).constructor.name === "Pawn"
-    ) {
-      if (
-        board.atLocation(leftSide).moveCount === 1 &&
-        board.atLocation(leftDiag) === null
-      ) {
-        const last = board.previousMoves.length - 1;
-        const y = board.previousMoves[last].atOldPos.location;
-        if (y[0] === leftSide[0] && y[1] === leftSide[1]) {
-          moves.push(leftDiag);
-        }
-      }
-    }
+  if (piece.inEnPassantPos()) {
+    for (const [i, sideLoc] of pawnSideLocs.entries()) {
+      const diagMove = diagMoves[i];
+      const atSideLoc = board.atLocation(sideLoc);
 
-    if (
-      board.isInBounds(rightSide) &&
-      board.atLocation(rightSide) !== null &&
-      board.atLocation(rightSide).color !== piece.color &&
-      board.atLocation(rightSide).constructor.name === "Pawn"
-    ) {
+      // check if piece on side loc is a enemy pawn
       if (
-        board.atLocation(rightSide).moveCount === 1 &&
-        board.atLocation(rightDiag) === null
+        board.posNotEmpty(sideLoc) &&
+        atSideLoc.constructor.name === "Pawn" &&
+        atSideLoc.color !== piece.color &&
+        atSideLoc.moveCount === 1
       ) {
-        const y =
-          board.previousMoves[board.previousMoves.length - 1].atOldPos.location;
-        if (y[0] === rightSide[0] && y[1] === rightSide[1]) {
-          moves.push(rightDiag);
-        }
+        // check if pawn was moved last turn
+        const prevPieceLoc = board.getPreviousMove().atOldPos.location;
+        if (board.isSameLocation(prevPieceLoc, sideLoc)) moves.push(diagMove);
       }
     }
   }
+
   return moves;
 };
 
