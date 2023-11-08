@@ -2,8 +2,27 @@
 
 // Neither the king nor the rook has previously moved. DONE
 // There are no pieces between the king and the rook. DONE
-// The king is not currently in check. TODO
-// The king does not pass through or finish on a square that is attacked by an enemy piece. TODO
+// The king is not currently in check.
+// The king does not pass through or finish on a square that is attacked by an enemy piece.
+
+// checks the following conditions:
+// The king is not currently in check.
+// The king does not pass through or finish on a square that is attacked by an enemy piece.
+const legalCastle = (king, offset) => {
+  const { board } = king;
+  const [kingRow, kingCol] = king.location;
+  const enemyColor = king.color === "black" ? "white" : "black";
+
+  if (
+    board.colorCanMoveThere(enemyColor, [kingRow, kingCol]) ||
+    board.colorCanMoveThere(enemyColor, [kingRow, kingCol + offset]) ||
+    board.colorCanMoveThere(enemyColor, [kingRow, kingCol + offset * 2])
+  ) {
+    return false;
+  }
+
+  return true;
+};
 
 const castleMove = (king) => {
   const moves = [];
@@ -28,7 +47,8 @@ const castleMove = (king) => {
     if (
       rook &&
       rook.moveCount === 0 &&
-      board.includesMove(rook.possibleMoves(), [kingRow, kingCol + offset])
+      board.includesMove(rook.possibleMoves(), [kingRow, kingCol + offset]) &&
+      legalCastle(king, offset)
     ) {
       moves.push([kingRow, kingCol + 2 * offset]);
     }

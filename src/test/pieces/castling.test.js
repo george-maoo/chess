@@ -79,6 +79,48 @@ describe("Castling", () => {
       expect(board.atLocation([7, 4]).constructor.name).toBe("King");
       expect(board.atLocation([7, 7]).constructor.name).toBe("Rook");
     });
+
+    test("Castling isnt allowed if king is in check", () => {
+      const board = new Board();
+      board.setLocation(new King("white", [7, 4], board), [7, 4]);
+      board.setLocation(new Rook("white", [7, 7], board), [7, 7]);
+
+      board.setLocation(new Rook("black", [0, 4], board), [0, 4]);
+
+      // this move should fail
+      board.movePiece([7, 4], [7, 6]);
+
+      expect(board.atLocation([7, 4]).constructor.name).toBe("King");
+      expect(board.atLocation([7, 7]).constructor.name).toBe("Rook");
+    });
+
+    test("Castling isnt allowed if king has to pass through a square that is attacked by an enemy piece", () => {
+      const board = new Board();
+      board.setLocation(new King("white", [7, 4], board), [7, 4]);
+      board.setLocation(new Rook("white", [7, 7], board), [7, 7]);
+
+      board.setLocation(new Rook("black", [0, 5], board), [0, 5]);
+
+      // this move should fail
+      board.movePiece([7, 4], [7, 6]);
+
+      expect(board.atLocation([7, 4]).constructor.name).toBe("King");
+      expect(board.atLocation([7, 7]).constructor.name).toBe("Rook");
+    });
+
+    test("Player cant put himself into check by castling", () => {
+      const board = new Board();
+      board.setLocation(new King("white", [7, 4], board), [7, 4]);
+      board.setLocation(new Rook("white", [7, 7], board), [7, 7]);
+
+      board.setLocation(new Rook("black", [0, 6], board), [0, 6]);
+
+      // this move should fail
+      board.movePiece([7, 4], [7, 6]);
+
+      expect(board.atLocation([7, 4]).constructor.name).toBe("King");
+      expect(board.atLocation([7, 7]).constructor.name).toBe("Rook");
+    });
   });
 
   describe("Black", () => {
@@ -149,6 +191,48 @@ describe("Castling", () => {
 
       board.movePiece([0, 4], [0, 5]);
       board.movePiece([0, 5], [0, 4]);
+
+      // this move should fail
+      board.movePiece([0, 4], [0, 6]);
+
+      expect(board.atLocation([0, 4]).constructor.name).toBe("King");
+      expect(board.atLocation([0, 7]).constructor.name).toBe("Rook");
+    });
+
+    test("Castling isnt allowed if king is in check", () => {
+      const board = new Board();
+      board.setLocation(new King("black", [0, 4], board), [0, 4]);
+      board.setLocation(new Rook("black", [0, 7], board), [0, 7]);
+
+      board.setLocation(new Rook("white", [7, 4], board), [7, 4]);
+
+      // this move should fail
+      board.movePiece([0, 4], [0, 6]);
+
+      expect(board.atLocation([0, 4]).constructor.name).toBe("King");
+      expect(board.atLocation([0, 7]).constructor.name).toBe("Rook");
+    });
+
+    test("Castling isnt allowed if king has to pass through a square that is attacked by an enemy piece", () => {
+      const board = new Board();
+      board.setLocation(new King("black", [0, 4], board), [0, 4]);
+      board.setLocation(new Rook("black", [0, 7], board), [0, 7]);
+
+      board.setLocation(new Rook("white", [7, 5], board), [7, 5]);
+
+      // this move should fail
+      board.movePiece([0, 4], [0, 6]);
+
+      expect(board.atLocation([0, 4]).constructor.name).toBe("King");
+      expect(board.atLocation([0, 7]).constructor.name).toBe("Rook");
+    });
+
+    test("Player cant put himself into check by castling", () => {
+      const board = new Board();
+      board.setLocation(new King("black", [0, 4], board), [0, 4]);
+      board.setLocation(new Rook("black", [0, 7], board), [0, 7]);
+
+      board.setLocation(new Rook("white", [7, 6], board), [7, 6]);
 
       // this move should fail
       board.movePiece([0, 4], [0, 6]);

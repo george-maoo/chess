@@ -147,13 +147,11 @@ class Board {
       piece.doingCastle(startPos, endPos)
     ) {
       const [startRow, startCol] = startPos;
-      const [endRow, endCol] = endPos;
+      const [_, endCol] = endPos;
 
-      if (endCol > startCol) {
-        this.swapLocations([startRow, 7], [startRow, 5]);
-      } else {
-        this.swapLocations([startRow, 0], [startRow, 3]);
-      }
+      endCol > startCol
+        ? this.swapLocations([startRow, 7], [startRow, 5])
+        : this.swapLocations([startRow, 0], [startRow, 3]);
     }
 
     this.storeLastMove(startPos, endPos);
@@ -203,8 +201,12 @@ class Board {
 
     const enemyColor = color === "black" ? "white" : "black";
 
-    for (const enemyPiece of this.getPieces(enemyColor)) {
-      if (this.includesMove(enemyPiece.possibleMoves(), king.location)) {
+    return this.colorCanMoveThere(enemyColor, king.location);
+  }
+
+  colorCanMoveThere(color, loc) {
+    for (const piece of this.getPieces(color)) {
+      if (this.includesMove(piece.possibleMoves(), loc)) {
         return true;
       }
     }
