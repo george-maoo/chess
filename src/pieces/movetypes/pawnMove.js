@@ -10,6 +10,7 @@ const pawnMove = (piece) => {
   const forwardDir = piece.forwardDirection();
   const [row, col] = piece.location;
   const moves = [];
+  const offsets = [-1, 1]; // used to calculate left and right side of pawn
 
   // forward moves
   const oneStep = [row + forwardDir, col];
@@ -28,18 +29,15 @@ const pawnMove = (piece) => {
   }
 
   // diagonal capture moves
-  const leftDiag = [row + forwardDir, col - 1];
-  const rightDiag = [row + forwardDir, col + 1];
 
-  const diagMoves = [leftDiag, rightDiag];
-
-  for (const move of diagMoves) {
+  for (const offset of offsets) {
+    const diagMove = [row + forwardDir, col + offset];
     if (
-      board.isInBounds(move) &&
-      board.atLocation(move) !== null &&
-      board.atLocation(move).color !== piece.color
+      board.isInBounds(diagMove) &&
+      board.atLocation(diagMove) !== null &&
+      board.atLocation(diagMove).color !== piece.color
     ) {
-      moves.push(move);
+      moves.push(diagMove);
     }
   }
 
@@ -57,13 +55,10 @@ const pawnMove = (piece) => {
   there is no other legal move.
    */
 
-  const leftSide = [row, col - 1];
-  const rightSide = [row, col + 1];
-  const pawnSideLocs = [leftSide, rightSide];
-
   if (piece.inEnPassantPos()) {
-    for (const [i, sideLoc] of pawnSideLocs.entries()) {
-      const diagMove = diagMoves[i];
+    for (const offset of offsets) {
+      const sideLoc = [row, col + offset];
+      const diagMove = [row + forwardDir, col + offset];
       const atSideLoc = board.atLocation(sideLoc);
 
       // check if piece on side loc is a enemy pawn

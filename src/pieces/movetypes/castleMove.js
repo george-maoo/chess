@@ -2,7 +2,7 @@
 
 // Neither the king nor the rook has previously moved. DONE
 // There are no pieces between the king and the rook. DONE
-// The king is not currently in check. DONE
+// The king is not currently in check. TODO
 // The king does not pass through or finish on a square that is attacked by an enemy piece. TODO
 
 const castleMove = (king) => {
