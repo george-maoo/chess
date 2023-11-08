@@ -60,7 +60,10 @@ class Board {
     const atLoc1 = this.atLocation(loc1);
     const atLoc2 = this.atLocation(loc2);
 
+    if (atLoc1) atLoc1.setPieceLoc(loc2);
     this.setLocation(atLoc1, loc2);
+
+    if (atLoc2) atLoc2.setPieceLoc(loc1);
     this.setLocation(atLoc2, loc1);
   }
 
@@ -94,9 +97,7 @@ class Board {
 
   // checks if move is included in listOfMoves
   includesMove(listOfMoves, endPos) {
-    return listOfMoves.some(
-      (move) => move[0] === endPos[0] && move[1] === endPos[1]
-    );
+    return listOfMoves.some((move) => this.isSameLocation(move, endPos));
   }
 
   // checks that a move doesnt put king in check
@@ -124,7 +125,8 @@ class Board {
     const piece = this.atLocation(startPos);
     if (!piece) return false;
 
-    return this.includesMove(this.legalMoves(piece), endPos);
+    const legalMoves = this.legalMoves(piece);
+    return this.includesMove(legalMoves, endPos);
   }
 
   // returns true if piece is moved, returns false if end position is invalid
@@ -133,9 +135,25 @@ class Board {
 
     const piece = this.atLocation(startPos);
 
+    // en passant check
     if (piece.constructor.name === "Pawn" && piece.doingEnPassant(endPos)) {
       const [endRow, endCol] = endPos;
       this.swapLocations(endPos, [endRow - piece.forwardDirection(), endCol]);
+    }
+
+    // castling check
+    if (
+      piece.constructor.name === "King" &&
+      piece.doingCastle(startPos, endPos)
+    ) {
+      const [startRow, startCol] = startPos;
+      const [endRow, endCol] = endPos;
+
+      if (endCol > startCol) {
+        this.swapLocations([startRow, 7], [startRow, 5]);
+      } else {
+        this.swapLocations([startRow, 0], [startRow, 3]);
+      }
     }
 
     this.storeLastMove(startPos, endPos);
