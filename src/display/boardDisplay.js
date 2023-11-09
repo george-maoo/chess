@@ -1,7 +1,5 @@
-import PieceImages from "./pieceImages.js";
-
 class BoardDisplay {
-  constructor(root, board) {
+  constructor(root, board, images) {
     const canvas = document.createElement("canvas");
     canvas.setAttribute("id", "my-canvas");
     canvas.setAttribute("height", 640);
@@ -9,7 +7,7 @@ class BoardDisplay {
     root.appendChild(canvas);
 
     this.ctx = canvas.getContext("2d");
-    this.pieceImages = new PieceImages();
+    this.pieceImages = images;
     this.boardColor1 = "rgb(184,139,74)";
     this.boardColor2 = "rgb(227,193,111)";
     this.board = board;
@@ -45,7 +43,9 @@ class BoardDisplay {
   drawPiece(piece, bgColor = null) {
     const { tileSize } = this;
     const [row, col] = piece.location;
-    const pieceImage = this.pieceImages.getPieceImage(piece);
+    const pieceImage = this.pieceImages.find((img) => {
+      return img.src.includes(piece.pieceImage());
+    });
 
     this.ctx.beginPath();
     if (bgColor) {

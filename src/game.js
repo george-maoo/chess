@@ -8,7 +8,7 @@ class Game {
     this.messageDisplay = messageDisplay;
   }
 
-  async startGame() {
+  startGame() {
     const chessBoard = document.createElement("div");
     chessBoard.setAttribute("id", "chess-board");
 
@@ -26,7 +26,6 @@ class Game {
     this.root.prepend(chessBoard);
 
     this.messageDisplay.setMessage("Loading...");
-    await this.boardDisplay.pieceImages.waitForImagesLoad();
 
     this.boardDisplay.drawBoard(
       this.board,
