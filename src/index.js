@@ -11,7 +11,13 @@ const main = async () => {
   const messageDisplay = new MessageDisplay(root);
   messageDisplay.setMessage("Loading...");
 
-  const images = await Promise.all(imagesLoader.loadImages());
+  const imagesLoaded = await Promise.all(imagesLoader.loadImages());
+
+  const images = new Map();
+  imagesLoaded.forEach((img) => {
+    const key = img.src.substring(img.src.lastIndexOf("/") + 1);
+    images.set(key, img);
+  });
 
   const board = new Board();
   board.initializeBoard();

@@ -43,9 +43,7 @@ class BoardDisplay {
   drawPiece(piece, bgColor = null) {
     const { tileSize } = this;
     const [row, col] = piece.location;
-    const pieceImage = this.pieceImages.find((img) => {
-      return img.src.includes(piece.pieceImage());
-    });
+    const pieceImage = this.pieceImages.get(piece.pieceImage());
 
     this.ctx.beginPath();
     if (bgColor) {
