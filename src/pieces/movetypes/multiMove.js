@@ -1,14 +1,12 @@
 // for all pieces that can move multiple tiles:
-/*
-for every move in possibleMoves, check every possible move in that direction
-until you hit:
-  - another piece
-    - if piece is same color:
-      - dont add the position as a valid move
-    - if piece is a enemy:
-      - add the enemy piece's location as a valid move
-  - move goes out of bounds
-*/
+// for every move in possibleMoves, check every possible move in that direction
+// until you hit:
+//   another piece
+//     if piece is same color:
+//       dont add the position as a valid move
+//     if piece is a enemy:
+//       add the enemy piece's location as a valid move
+//   move goes out of bounds
 
 const multiMove = (piece) => {
   const { board } = piece;

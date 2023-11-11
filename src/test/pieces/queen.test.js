@@ -10,7 +10,7 @@ describe("Queen", () => {
       const board = new Board();
       board.setLocation(new Queen("white", [4, 4], board), [4, 4]);
 
-      const possibleMoves = board.board[4][4].possibleMoves();
+      const possibleMoves = board.atLocation([4, 4]).possibleMoves();
       const expectedPossibleMoves = [
         [1, 0, 0, 0, 1, 0, 0, 0],
         [0, 1, 0, 0, 1, 0, 0, 1],
@@ -31,7 +31,7 @@ describe("Queen", () => {
       const board = new Board();
       board.setLocation(new Queen("white", [0, 0], board), [0, 0]);
 
-      const possibleMoves = board.board[0][0].possibleMoves();
+      const possibleMoves = board.atLocation([0, 0]).possibleMoves();
       const expectedPossibleMoves = [
         [0, 1, 1, 1, 1, 1, 1, 1],
         [1, 1, 0, 0, 0, 0, 0, 0],
@@ -57,7 +57,7 @@ describe("Queen", () => {
       board.setLocation(new Pawn("white", [4, 6], board), [4, 6]);
       board.setLocation(new Pawn("white", [7, 1], board), [7, 1]);
 
-      const possibleMoves = board.board[4][4].possibleMoves();
+      const possibleMoves = board.atLocation([4, 4]).possibleMoves();
       const expectedPossibleMoves = [
         [0, 0, 0, 0, 1, 0, 0, 0],
         [0, 0, 0, 0, 1, 0, 0, 1],
@@ -82,7 +82,7 @@ describe("Queen", () => {
       board.setLocation(new Pawn("black", [6, 6], board), [6, 6]);
       board.setLocation(new Pawn("black", [5, 3], board), [5, 3]);
 
-      const possibleMoves = board.board[4][4].possibleMoves();
+      const possibleMoves = board.atLocation([4, 4]).possibleMoves();
       const expectedPossibleMoves = [
         [1, 0, 0, 0, 1, 0, 0, 0],
         [0, 1, 0, 0, 1, 0, 0, 1],

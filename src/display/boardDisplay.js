@@ -14,6 +14,7 @@ class BoardDisplay {
     this.tileSize = 80;
   }
 
+  // draws the entire board state
   drawBoard(board, color, selectedPiece = null) {
     const { tileSize } = this;
 
@@ -60,6 +61,7 @@ class BoardDisplay {
     );
   }
 
+  // draws the possible moves the selected piece can make
   highlightMoves(piece) {
     const { tileSize } = this;
     const dotCenter = tileSize / 2;
@@ -86,6 +88,7 @@ class BoardDisplay {
     }
   }
 
+  // makes the king's board tile color red when king is in check/checkmate
   highlightKing(color) {
     const king = this.board
       .getPieces(color)

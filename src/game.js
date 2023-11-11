@@ -59,7 +59,6 @@ class Game {
 
   playTurn(move) {
     const piece = this.selectedPiece;
-
     const pieceMoved = this.board.movePiece(piece.location, move);
 
     if (pieceMoved) {

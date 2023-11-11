@@ -1,6 +1,6 @@
 import Piece from "./piece.js";
 
-import {multiMove} from "./movetypes/multiMove.js";
+import { multiMove } from "./movetypes/multiMove.js";
 
 class Bishop extends Piece {
   pieceSymbol() {

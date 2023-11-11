@@ -53,8 +53,8 @@ class Pawn extends Piece {
 
   inEnPassantPos() {
     return (
-      (this.color === "white" && this.currentRow() === 3) ||
-      (this.color === "black" && this.currentRow() === 4)
+      (this.color === "white" && this.location[0] === 3) ||
+      (this.color === "black" && this.location[0] === 4)
     );
   }
 

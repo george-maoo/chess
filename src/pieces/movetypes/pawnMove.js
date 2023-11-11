@@ -12,7 +12,7 @@ const pawnMove = (piece) => {
   const moves = [];
   const offsets = [-1, 1]; // used to calculate left and right side of pawn
 
-  // forward moves
+  // forward one
   const oneStep = [row + forwardDir, col];
   const twoStep = [row + forwardDir * 2, col];
 
@@ -20,6 +20,7 @@ const pawnMove = (piece) => {
     moves.push(oneStep);
   }
 
+  // forward two
   if (
     board.posIsEmpty(oneStep) &&
     board.posIsEmpty(twoStep) &&
@@ -29,7 +30,6 @@ const pawnMove = (piece) => {
   }
 
   // diagonal capture moves
-
   for (const offset of offsets) {
     const diagMove = [row + forwardDir, col + offset];
     if (
@@ -42,19 +42,6 @@ const pawnMove = (piece) => {
   }
 
   // en passant
-
-  /*
-  The conditions for a pawn to capture an enemy pawn en passant are as follows:
-    * the enemy pawn advanced two squares on the previous turn;
-    * the capturing pawn attacks the square that the enemy pawn passed over.
-
-  If these conditions are met, the capturing pawn can move diagonally forward to
-  the square that the enemy pawn passed, capturing the enemy pawn as if it had
-  moved only one square. If the right to capture en passant is not exercised
-  immediately, it is subsequently lost. Making the capture is optional, unless
-  there is no other legal move.
-   */
-
   if (piece.inEnPassantPos()) {
     for (const offset of offsets) {
       const sideLoc = [row, col + offset];

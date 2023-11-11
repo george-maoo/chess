@@ -1,7 +1,7 @@
 import Board from "../../board.js";
 import Knight from "../../pieces/knight.js";
 import Pawn from "../../pieces/pawn.js";
-import { possibleMovesValidator } from "./helper.js";;
+import { possibleMovesValidator } from "./helper.js";
 
 describe("Knight", () => {
   // in expectedPossibleMoves, a 1 represents a valid move, a 0 represents invalid move
@@ -10,7 +10,7 @@ describe("Knight", () => {
       const board = new Board();
       board.setLocation(new Knight("white", [4, 4], board), [4, 4]);
 
-      const possibleMoves = board.board[4][4].possibleMoves();
+      const possibleMoves = board.atLocation([4, 4]).possibleMoves();
       const expectedPossibleMoves = [
         [0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0],
@@ -41,7 +41,7 @@ describe("Knight", () => {
       board.setLocation(new Pawn("black", [5, 4], board), [5, 4]);
       board.setLocation(new Pawn("white", [5, 5], board), [5, 5]);
 
-      const possibleMoves = board.board[4][4].possibleMoves();
+      const possibleMoves = board.atLocation([4, 4]).possibleMoves();
       const expectedPossibleMoves = [
         [0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0],
@@ -68,7 +68,7 @@ describe("Knight", () => {
       board.setLocation(new Pawn("white", [6, 3], board), [6, 3]);
       board.setLocation(new Pawn("white", [3, 6], board), [3, 6]);
 
-      const possibleMoves = board.board[4][4].possibleMoves();
+      const possibleMoves = board.atLocation([4, 4]).possibleMoves();
       const expectedPossibleMoves = [
         [0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0],
@@ -95,7 +95,7 @@ describe("Knight", () => {
       board.setLocation(new Pawn("black", [6, 3], board), [6, 3]);
       board.setLocation(new Pawn("black", [3, 6], board), [3, 6]);
 
-      const possibleMoves = board.board[4][4].possibleMoves();
+      const possibleMoves = board.atLocation([4, 4]).possibleMoves();
       const expectedPossibleMoves = [
         [0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0],

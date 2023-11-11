@@ -10,14 +10,6 @@ class Piece {
     this.location = loc;
     this.moveCount += 1;
   }
-
-  currentRow() {
-    return this.location[0];
-  }
-
-  currentCol() {
-    return this.location[1];
-  }
 }
 
 export default Piece;

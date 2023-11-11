@@ -23,28 +23,27 @@ class Board {
 
   // initialize board
   initializeBoard() {
-    this.setLocation(new Rook("black", [0, 0], this), [0, 0]);
-    this.setLocation(new Knight("black", [0, 1], this), [0, 1]);
-    this.setLocation(new Bishop("black", [0, 2], this), [0, 2]);
-    this.setLocation(new Queen("black", [0, 3], this), [0, 3]);
-    this.setLocation(new King("black", [0, 4], this), [0, 4]);
-    this.setLocation(new Bishop("black", [0, 5], this), [0, 5]);
-    this.setLocation(new Knight("black", [0, 6], this), [0, 6]);
-    this.setLocation(new Rook("black", [0, 7], this), [0, 7]);
+    const pieceOrder = [
+      Rook,
+      Knight,
+      Bishop,
+      Queen,
+      King,
+      Bishop,
+      Knight,
+      Rook,
+    ];
+
+    // initialize black pieces
     for (let i = 0; i < 8; i++) {
+      this.setLocation(new pieceOrder[i]("black", [0, i], this), [0, i]);
       this.setLocation(new Pawn("black", [1, i], this), [1, i]);
     }
 
-    this.setLocation(new Rook("white", [7, 0], this), [7, 0]);
-    this.setLocation(new Knight("white", [7, 1], this), [7, 1]);
-    this.setLocation(new Bishop("white", [7, 2], this), [7, 2]);
-    this.setLocation(new Queen("white", [7, 3], this), [7, 3]);
-    this.setLocation(new King("white", [7, 4], this), [7, 4]);
-    this.setLocation(new Bishop("white", [7, 5], this), [7, 5]);
-    this.setLocation(new Knight("white", [7, 6], this), [7, 6]);
-    this.setLocation(new Rook("white", [7, 7], this), [7, 7]);
+    // initialize white pieces
     for (let i = 0; i < 8; i++) {
       this.setLocation(new Pawn("white", [6, i], this), [6, i]);
+      this.setLocation(new pieceOrder[i]("white", [7, i], this), [7, i]);
     }
   }
 
@@ -65,6 +64,10 @@ class Board {
 
     if (atLoc2) atLoc2.setPieceLoc(loc1);
     this.setLocation(atLoc2, loc1);
+  }
+
+  isSameLocation([row1, col1], [row2, col2]) {
+    return row1 === row2 && col1 === col2;
   }
 
   // gets all pieces of a specified color, or all pieces if no color is specified
@@ -136,16 +139,13 @@ class Board {
     const piece = this.atLocation(startPos);
 
     // en passant check
-    if (piece.constructor.name === "Pawn" && piece.doingEnPassant(endPos)) {
+    if (piece instanceof Pawn && piece.doingEnPassant(endPos)) {
       const [endRow, endCol] = endPos;
       this.swapLocations(endPos, [endRow - piece.forwardDirection(), endCol]);
     }
 
     // castling check
-    if (
-      piece.constructor.name === "King" &&
-      piece.doingCastle(startPos, endPos)
-    ) {
+    if (piece instanceof King && piece.doingCastle(startPos, endPos)) {
       const [startRow, startCol] = startPos;
       const [_, endCol] = endPos;
 
@@ -192,6 +192,17 @@ class Board {
     return this.previousMoves[this.previousMoves.length - 1];
   }
 
+  // returns true if any piece of the color specified can move to loc
+  colorCanMoveThere(color, loc) {
+    for (const piece of this.getPieces(color)) {
+      if (this.includesMove(piece.possibleMoves(), loc)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   // check all enemy moves to see if the king gets hit by any of them
   isInCheck(color) {
     const king = this.getPieces(color).find((piece) => piece instanceof King);
@@ -204,16 +215,6 @@ class Board {
     return this.colorCanMoveThere(enemyColor, king.location);
   }
 
-  colorCanMoveThere(color, loc) {
-    for (const piece of this.getPieces(color)) {
-      if (this.includesMove(piece.possibleMoves(), loc)) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
   // check all moves that the player in check can make
   // if none of those moves move them out of checkmate, return true, else return false
   isInCheckmate(color) {
@@ -224,10 +225,6 @@ class Board {
     }
 
     return true;
-  }
-
-  isSameLocation([row1, col1], [row2, col2]) {
-    return row1 === row2 && col1 === col2;
   }
 }
 

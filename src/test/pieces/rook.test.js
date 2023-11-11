@@ -10,7 +10,7 @@ describe("Rook", () => {
       const board = new Board();
       board.setLocation(new Rook("white", [4, 4], board), [4, 4]);
 
-      const possibleMoves = board.board[4][4].possibleMoves();
+      const possibleMoves = board.atLocation([4, 4]).possibleMoves();
       const expectedPossibleMoves = [
         [0, 0, 0, 0, 1, 0, 0, 0],
         [0, 0, 0, 0, 1, 0, 0, 0],
@@ -22,14 +22,16 @@ describe("Rook", () => {
         [0, 0, 0, 0, 1, 0, 0, 0],
       ];
 
-      expect(possibleMovesValidator(expectedPossibleMoves, possibleMoves)).toBe(true);
+      expect(possibleMovesValidator(expectedPossibleMoves, possibleMoves)).toBe(
+        true
+      );
     });
 
     test("Can only move up and left when placed in row 7 column 7", () => {
       const board = new Board();
       board.setLocation(new Rook("white", [7, 7], board), [7, 7]);
 
-      const possibleMoves = board.board[7][7].possibleMoves();
+      const possibleMoves = board.atLocation([7, 7]).possibleMoves();
       const expectedPossibleMoves = [
         [0, 0, 0, 0, 0, 0, 0, 1],
         [0, 0, 0, 0, 0, 0, 0, 1],
@@ -41,7 +43,9 @@ describe("Rook", () => {
         [1, 1, 1, 1, 1, 1, 1, 0],
       ];
 
-      expect(possibleMovesValidator(expectedPossibleMoves, possibleMoves)).toBe(true);
+      expect(possibleMovesValidator(expectedPossibleMoves, possibleMoves)).toBe(
+        true
+      );
     });
 
     test("Cant move on or over pieces of same color", () => {
@@ -51,7 +55,7 @@ describe("Rook", () => {
       board.setLocation(new Pawn("white", [6, 4], board), [6, 4]);
       board.setLocation(new Pawn("white", [4, 1], board), [4, 1]);
 
-      const possibleMoves = board.board[4][4].possibleMoves();
+      const possibleMoves = board.atLocation([4, 4]).possibleMoves();
       const expectedPossibleMoves = [
         [0, 0, 0, 0, 1, 0, 0, 0],
         [0, 0, 0, 0, 1, 0, 0, 0],
@@ -63,7 +67,9 @@ describe("Rook", () => {
         [0, 0, 0, 0, 0, 0, 0, 0],
       ];
 
-      expect(possibleMovesValidator(expectedPossibleMoves, possibleMoves)).toBe(true);
+      expect(possibleMovesValidator(expectedPossibleMoves, possibleMoves)).toBe(
+        true
+      );
     });
 
     test("Can move on top of enemy pieces but not over them", () => {
@@ -73,7 +79,7 @@ describe("Rook", () => {
       board.setLocation(new Pawn("black", [6, 4], board), [6, 4]);
       board.setLocation(new Pawn("black", [4, 1], board), [4, 1]);
 
-      const possibleMoves = board.board[4][4].possibleMoves();
+      const possibleMoves = board.atLocation([4, 4]).possibleMoves();
       const expectedPossibleMoves = [
         [0, 0, 0, 0, 1, 0, 0, 0],
         [0, 0, 0, 0, 1, 0, 0, 0],
@@ -85,7 +91,9 @@ describe("Rook", () => {
         [0, 0, 0, 0, 0, 0, 0, 0],
       ];
 
-      expect(possibleMovesValidator(expectedPossibleMoves, possibleMoves)).toBe(true);
+      expect(possibleMovesValidator(expectedPossibleMoves, possibleMoves)).toBe(
+        true
+      );
     });
   });
 });
