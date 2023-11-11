@@ -58,17 +58,20 @@ class Pawn extends Piece {
     );
   }
 
-  doingEnPassant(endPos) {
+  doingDiagMove(endPos) {
     const [row, col] = this.location;
 
     const leftDiag = [row + this.forwardDirection(), col - 1];
     const rightDiag = [row + this.forwardDirection(), col + 1];
 
     return (
-      (this.board.isSameLocation(endPos, leftDiag) ||
-        this.board.isSameLocation(endPos, rightDiag)) &&
-      this.board.atLocation(endPos) === null
+      this.board.isSameLocation(endPos, leftDiag) ||
+      this.board.isSameLocation(endPos, rightDiag)
     );
+  }
+
+  doingEnPassant(endPos) {
+    return this.doingDiagMove(endPos) && this.board.atLocation(endPos) === null;
   }
 
   possibleMoves() {
