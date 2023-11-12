@@ -16,6 +16,7 @@ class Game {
       for (let col = 0; col < 8; col++) {
         const button = document.createElement("button");
         button.setAttribute("id", "board-tile");
+        button.setAttribute("aria-label", "chess-board-tile");
 
         button.addEventListener("click", () => this.handleClick([row, col]));
 

@@ -37,13 +37,13 @@ const castleMove = (king) => {
   const leftRook = board.atLocation([kingRow, kingCol - 4]);
   const rightRook = board.atLocation([kingRow, kingCol + 3]);
 
-  const rooks = [leftRook, rightRook];
-  const offsets = [-1, 1];
+  // pair of rook and which direction it is from the king
+  const pairs = [
+    [leftRook, -1],
+    [rightRook, 1],
+  ];
 
-  for (let i = 0; i < 2; i++) {
-    const rook = rooks[i];
-    const offset = offsets[i];
-
+  for (const [rook, offset] in pairs) {
     // check if rook moved and rook can move to spot right beside king
     if (
       rook &&
